@@ -5,6 +5,9 @@ local function opt(scope, key, value)
   if scope ~= 'o' then scopes['o'][key] = value end
 end
 
+vim.cmd('set signcolumn=yes')
+vim.cmd("let &fcs='eob: '")
+
 opt('o', 'encoding','UTF-8')
 opt('o', 'background','dark')
 opt('o', 'ignorecase', true)
@@ -25,6 +28,3 @@ opt('b', 'expandtab', true)
 opt('w', 'number', true)
 opt('w', 'wrap', false)
 opt('w', 'cursorline', true)
-
-vim.cmd('set signcolumn=yes')
-vim.cmd("let &fcs='eob: '")

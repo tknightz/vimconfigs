@@ -21,17 +21,23 @@ require('mappings')
 require('settings')
 require "statusline"
 require "topbufferline"
-
 require("neoscroll").setup()
 
-local base16 = require 'base16'
-base16(base16.themes['material-darker'], true)
--- vim.cmd("colorscheme ikolor")
+vim.g.colorful_transparent = 1
+vim.cmd("colorscheme colorful")
 
 require "treeSitter"
 require "teleScope"
 require "nvimTree"
 require("nvim-autopairs").setup()
+require 'colorizer'.setup {
+  'css',
+  'javascript',
+  'vim',
+  html = {
+    mode = 'background'
+  }
+}
 
 require "gitsignConfig"
 require "nvim-lspconfig"

@@ -77,12 +77,15 @@ wk.register({
     ["="] = {'<C-W>='     , 'balance-window'        },
     s = {'<C-W>x'     , 'swap window'           },
     v = {'<C-W>v'     , 'split-window-below'    },
+    m = {'<cmd>MaximizerToggle<cr>'     , 'Max-min toggle'    },
     t = {
       name    = 'transform',
       h       = {'<C-W>tH'       , 'swap-window-vertical' },
       k       = {'<C-W>tK'       , 'swap-window-horizontal' },
     },
   },
+
+  y = { "<cmd>%y+<cr>", "yank to clipboard"},
   
   g = { 
     name = "Git",
@@ -90,6 +93,7 @@ wk.register({
     s = {"<cmd>Telescope git_stash<cr>", "stash"},
     b = {"<cmd>Telescope git_branches<cr>", "branches"},
     c = {"<cmd>Telescope git_commits<cr>", "commits"},
+    d = {"<cmd>Telescope git_status<cr>", "diff"},
   },
 
   b = {

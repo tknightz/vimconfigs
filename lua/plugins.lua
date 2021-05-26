@@ -6,13 +6,13 @@ return require('packer').startup(
     use {'wbthomason/packer.nvim', opt = true}
 
     -- Colors and icons
-    use {'tknightz/ikolor.vim', as = 'ikolor'}
-    use 'norcalli/nvim-base16.lua'
-    use 'glepnir/zephyr-nvim'
+    use 'tknightz/colorful.vim'
     use "kyazdani42/nvim-web-devicons"
     use "ryanoasis/vim-devicons"
-    use {'lukas-reineke/indent-blankline.nvim', branch = 'lua'}
+    -- use {'lukas-reineke/indent-blankline.nvim', branch = 'lua'}
     use "nvim-treesitter/nvim-treesitter"
+    use 'nvim-treesitter/playground'
+    use 'norcalli/nvim-colorizer.lua'
 
     -- Extensions (windows)
     use "kyazdani42/nvim-tree.lua"
@@ -26,12 +26,18 @@ return require('packer').startup(
     use 'vimlab/split-term.vim'
     use 'machakann/vim-sandwich'
     use 'haya14busa/is.vim'
+    use 'szw/vim-maximizer'
 
     -- LSP
     use 'neovim/nvim-lspconfig'
     use "onsails/lspkind-nvim"
     use "hrsh7th/nvim-compe"
     use 'Vimjas/vim-python-pep8-indent'
+
+    use {
+      'tweekmonster/django-plus.vim',
+      ft = {'htmldjango'}
+    }
 
     -- Project and version control
     use 'lewis6991/gitsigns.nvim'

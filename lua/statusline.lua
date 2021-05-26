@@ -1,17 +1,21 @@
 local gl = require("galaxyline")
 local gls = gl.section
+local fileinfo = require('galaxyline.provider_fileinfo')
 
 gl.short_line_list = {" "} -- keeping this table { } as empty will show inactive statuslines
 
 local colors = {
-    bg = "#22262e",
+    bg = "#2e323a",
     fg = "#abb2bf",
-    green = "#82ad63",
+    green = "#67D745",
     red = "#d47d85",
-    lightbg = "#2e323a",
+    lightbg = "#515866",
+    orange = "#ff8e0c",
     blue = "#7797b7",
+    violet = "#FF2F9E",
     yellow = "#e0c080",
-    grey = "#6f737b"
+    grey = "#6f737b",
+    white = "#ffffff"
 }
 
 gls.left[2] = {
@@ -26,7 +30,36 @@ gls.left[2] = {
                 v = "Visual",
                 R = "Replace"
             }
+            local mode_color = {
+              n = {colors.bg, colors.violet}, 
+              i = {colors.bg, colors.green},
+              v = {colors.white, colors.orange},
+              [''] = {colors.white, colors.orange},
+              V={colors.white, colors.orange},
+              c = {colors.white, colors.blue},
+              no = {colors.white, colors.red},
+              s = {colors.white, colors.orange},
+              S= {colors.white, colors.orange},
+              [''] = {colors.bg, colors.orange},
+              ic = {colors.bg, colors.green},
+              R = {colors.white, colors.violet},
+              Rv = {colors.white, colors.violet},
+              cv = {colors.white, colors.red},
+              ce={colors.white, colors.red},
+              r = {colors.bg, colors.cyan},
+              rm = {colors.bg, colors.cyan},
+              ['r?'] = {colors.bg, colors.blue},
+              ['!']  = {colors.white, colors.red},
+              t = {colors.white, colors.red}
+            }
+            if mode_color[vim.fn.mode()] == nil then
+              vim.api.nvim_command('hi GalaxyViMode guifg=white guibg=red')
+            else
+              vim.api.nvim_command('hi GalaxyViMode guifg='..mode_color[vim.fn.mode()][1]..' guibg='..mode_color[vim.fn.mode()][2])
+            end
+
             local current_Mode = alias[vim.fn.mode()]
+
 
             if current_Mode == nil then
                 return "  Terminal "
@@ -34,15 +67,14 @@ gls.left[2] = {
                 return "   " .. current_Mode .. " "
             end
         end,
-        separator = " ",
-        highlight = {colors.lightbg, colors.red},
-        separator_highlight = {colors.red, colors.bg}
     }
 }
 
 gls.left[3] = {
     FileIcon = {
-        provider = "FileIcon",
+        provider = function()
+          return "   "..fileinfo.get_file_icon().." "
+        end,
         condition = buffer_not_empty,
         highlight = {colors.fg, colors.lightbg}
     }
@@ -50,7 +82,7 @@ gls.left[3] = {
 
 gls.left[4] = {
     FileName = {
-        provider = {"FileName"},
+        provider = "FileName",
         condition = buffer_not_empty,
         highlight = {colors.fg, colors.lightbg},
         separator = " ",
@@ -97,7 +129,7 @@ gls.left[8] = {
     DiagnosticError = {
         provider = "DiagnosticError",
         icon = "  ",
-        highlight = {colors.grey, colors.bg}
+        highlight = {colors.red, colors.bg}
     }
 }
 
@@ -115,7 +147,7 @@ gls.right[1] = {
             return " "
         end,
         condition = require("galaxyline.provider_vcs").check_git_workspace,
-        highlight = {colors.grey, colors.lightbg},
+        highlight = {colors.bg, colors.lightbg},
         separator = "",
         separator_highlight = {colors.lightbg, colors.bg}
     }
@@ -125,18 +157,18 @@ gls.right[2] = {
     GitBranch = {
         provider = "GitBranch",
         condition = require("galaxyline.provider_vcs").check_git_workspace,
-        highlight = {colors.grey, colors.lightbg}
+        highlight = {colors.bg, colors.lightbg}
     }
 }
 
 gls.right[3] = {
     time_icon = {
         provider = function()
-            return "   "
+            return "  "
         end,
-        separator = "",
-        separator_highlight = {colors.green, colors.bg},
-        highlight = {colors.lightbg, colors.green}
+        separator = " ",
+        separator_highlight = {colors.green, colors.lightbg},
+        highlight = {colors.grey, colors.green}
     }
 }
 

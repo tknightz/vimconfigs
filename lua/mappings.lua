@@ -18,7 +18,11 @@ vim.g.indent_blankline_context_patterns = {'class', 'function', 'method', 'if', 
 
 vim.g.ikolor_transparent = 1
 
- vim.api.nvim_command('augroup terminal_settings')
- vim.api.nvim_command('autocmd BufLeave term://* stopinsert')
- vim.api.nvim_command('autocmd TermOpen * setlocal nonumber norelativenumber signcolumn=no')
- vim.api.nvim_command('augroup END')
+vim.api.nvim_command('augroup terminal_settings')
+vim.api.nvim_command('autocmd BufLeave term://* stopinsert')
+vim.api.nvim_command('autocmd TermOpen * setlocal nonumber norelativenumber signcolumn=no')
+vim.api.nvim_command('augroup END')
+
+vim.api.nvim_command('augroup editor')
+vim.api.nvim_command('autocmd BufReadPost * normal! g`"zv')
+vim.api.nvim_command('augroup END')
