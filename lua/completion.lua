@@ -47,8 +47,8 @@ _G.tab_complete = function()
         return t "<C-n>"
     elseif check_back_space() then
         return t "<Tab>"
-    else
-        return vim.fn["compe#complete"]()
+    --[[ else
+        return vim.fn["compe#complete"]() ]]
     end
 end
 _G.s_tab_complete = function()

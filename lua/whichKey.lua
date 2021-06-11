@@ -1,5 +1,13 @@
 local wk = require('which-key')
+local g = vim.g
+g.num_of_workspaces = 1
 
+function createNewTab() 
+  vim.api.nvim_exec('WS '..g.num_of_workspaces, false) 
+  local temp = vim.api.nvim_exec('echo tabpagenr("$")', true)
+  local num = temp:gsub(':%', '')
+  g.num_of_workspaces = num + 1
+end
 
 wk.setup {
   plugins = {
@@ -23,7 +31,7 @@ wk.setup {
   },
   -- add operators that will trigger motion and text object completion
   -- to enable all native operators, set the preset / operators plugin above
-  operators = { gc = "Comments" },
+  operators = { gc = "Comments", ["v"] = "Visual Mode" },
   icons = {
     breadcrumb = "»", -- symbol used in the command line area that shows your active key combo
     separator = "➜", -- symbol used between a key and it's label
@@ -53,6 +61,7 @@ wk.register({
 		f = { "<cmd>Telescope find_files<cr>", "Find File" },
 		s = { "<cmd>update<cr>", "Save File" },
 		n = { "<cmd>new<cr>", "New File" },
+		m = { "<cmd>Telescope media_files<cr>", "media_files" },
     r = { "<cmd>Telescope live_grep<cr>", "Grep" }
 	},
 
@@ -74,7 +83,7 @@ wk.register({
     J = {'resize +5'  , 'expand-window-below'   },
     L = {'<C-W>5>'    , 'expand-window-right'   },
     K = {'resize -5'  , 'expand-window-up'      },
-    ["="] = {'<C-W>='     , 'balance-window'        },
+    ["="] = {'<C-W>='     , 'balance-window'    },
     s = {'<C-W>x'     , 'swap window'           },
     v = {'<C-W>v'     , 'split-window-below'    },
     m = {'<cmd>MaximizerToggle<cr>'     , 'Max-min toggle'    },
@@ -90,10 +99,16 @@ wk.register({
   g = { 
     name = "Git",
     f = {"<cmd>Telescope git_files<cr>", "files"},
-    s = {"<cmd>Telescope git_stash<cr>", "stash"},
+    s = {"<cmd>Telescope git_status<cr>", "status"},
+    S = {"<cmd>Telescope git_stash<cr>", "stash"},
     b = {"<cmd>Telescope git_branches<cr>", "branches"},
     c = {"<cmd>Telescope git_commits<cr>", "commits"},
     d = {"<cmd>Telescope git_status<cr>", "diff"},
+    n = {"<cmd>Gitsigns next_hunk<cr>", "next hunk"},
+    p = {"<cmd>Gitsigns previous_hunk<cr>", "previous hunk"},
+    v = {"<cmd>Gitsigns preview_hunk<cr>", "view hunk"},
+    w = {"<cmd>Gitsigns blame_line<cr>", "who code it"},
+    h = {"<cmd>Gitsigns toggle_linehl<cr>", "highlight toggle"}
   },
 
   b = {
@@ -116,11 +131,32 @@ wk.register({
     l = {"<cmd>PackerLoad<cr>", "load"}
   },
 
+  T = {"<cmd>ToggleTerm<cr>", "terminal"},
+
+  t = {
+    name = "TAb",
+    c = { createNewTab ,"new" },
+    n = {"<cmd>tabnext<cr>", "next"},
+  },
+
+  j = {"<Plug>(choosewin)", "jump"},
+
   q = {
     name = "quit",
     a = {"<cmd>qa<cr>", "all"},
     q = {"<cmd>q<cr>", "current_file"},
     ['!'] = {"<cmd>q!<cr>", "no save"}
   },
+}, { 
+  prefix = "<Leader>",
+  mode = "n"
+})
 
-}, { prefix = "<Leader>"})
+
+-- visual mode
+wk.register({
+  y = { "\"+y", "yank to clipboard"},
+}, {
+  prefix = "<Leader>",
+  mode = "v"
+})

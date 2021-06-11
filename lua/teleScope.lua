@@ -1,5 +1,14 @@
+local actions = require('telescope.actions')
+
 require("telescope").setup {
     defaults = {
+          mappings = {
+          i = {
+            ["<esc>"] = actions.close,
+            ["<S-Up>"] = actions.preview_scrolling_up,
+            ["<S-Down>"] = actions.preview_scrolling_down
+          },
+        },
         vimgrep_arguments = {
             "rg",
             "--color=never",
@@ -10,7 +19,7 @@ require("telescope").setup {
             "--smart-case"
         },
         prompt_position = "bottom",
-        prompt_prefix = " ",
+        prompt_prefix = " 🔍 ",
         selection_caret = " ",
         entry_prefix = "  ",
         initial_mode = "insert",
@@ -27,14 +36,14 @@ require("telescope").setup {
             }
         },
         file_sorter = require "telescope.sorters".get_fuzzy_file,
-        file_ignore_patterns = {},
+        file_ignore_patterns = {"node_modules"},
         generic_sorter = require "telescope.sorters".get_generic_fuzzy_sorter,
         shorten_path = true,
         winblend = 0,
-        width = 0.75,
+        width = 0.6,
         preview_cutoff = 120,
-        results_height = 1,
-        results_width = 0.8,
+        results_height = 0.5,
+        results_width = 0.5,
         border = {},
         borderchars = {"─", "│", "─", "│", "╭", "╮", "╯", "╰"},
         color_devicons = true,

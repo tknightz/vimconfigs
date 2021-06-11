@@ -15,15 +15,16 @@ return require('packer').startup(
     use 'norcalli/nvim-colorizer.lua'
 
     -- Extensions (windows)
+    use 'dosimple/workspace.vim'
     use "kyazdani42/nvim-tree.lua"
     use 'akinsho/nvim-bufferline.lua'
+    use "akinsho/nvim-toggleterm.lua"
     use {
 			'nvim-telescope/telescope.nvim',
 			requires = {{'nvim-lua/popup.nvim'}, {'nvim-lua/plenary.nvim'}}
   	}
     use "nvim-telescope/telescope-media-files.nvim"
     use 'b3nj5m1n/kommentary'
-    use 'vimlab/split-term.vim'
     use 'machakann/vim-sandwich'
     use 'haya14busa/is.vim'
     use 'szw/vim-maximizer'
@@ -33,11 +34,6 @@ return require('packer').startup(
     use "onsails/lspkind-nvim"
     use "hrsh7th/nvim-compe"
     use 'Vimjas/vim-python-pep8-indent'
-
-    use {
-      'tweekmonster/django-plus.vim',
-      ft = {'htmldjango'}
-    }
 
     -- Project and version control
     use 'lewis6991/gitsigns.nvim'

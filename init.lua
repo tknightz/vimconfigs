@@ -15,7 +15,7 @@
 --     This is my personal configurations for vim, nvim.
 --     You can customize it to solve your problems.
 --
-
+      
 require('plugins')
 require('mappings')
 require('settings')

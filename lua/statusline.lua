@@ -2,8 +2,6 @@ local gl = require("galaxyline")
 local gls = gl.section
 local fileinfo = require('galaxyline.provider_fileinfo')
 
-gl.short_line_list = {" "} -- keeping this table { } as empty will show inactive statuslines
-
 local colors = {
     bg = "#2e323a",
     fg = "#abb2bf",
@@ -18,17 +16,20 @@ local colors = {
     white = "#ffffff"
 }
 
+gl.short_line_list = {'NvimTree', 'vista', 'dbui'}
+
+
 gls.left[2] = {
     ViMode = {
         provider = function()
             local alias = {
-                n = "Normal",
-                i = "Insert",
-                c = "Command",
-                V = "Visual",
-                [""] = "Visual",
-                v = "Visual",
-                R = "Replace"
+                n = "NORMAL",
+                i = "INSERT",
+                c = "COMMAND",
+                V = "VISUAL",
+                [""] = "VISUAL",
+                v = "VISUAL",
+                R = "REPLACE"
             }
             local mode_color = {
               n = {colors.bg, colors.violet}, 
@@ -53,9 +54,9 @@ gls.left[2] = {
               t = {colors.white, colors.red}
             }
             if mode_color[vim.fn.mode()] == nil then
-              vim.api.nvim_command('hi GalaxyViMode guifg=white guibg=red')
+              vim.api.nvim_command('hi GalaxyViMode guifg=white guibg=red gui=bold')
             else
-              vim.api.nvim_command('hi GalaxyViMode guifg='..mode_color[vim.fn.mode()][1]..' guibg='..mode_color[vim.fn.mode()][2])
+              vim.api.nvim_command('hi GalaxyViMode guifg='..mode_color[vim.fn.mode()][1]..' guibg='..mode_color[vim.fn.mode()][2]..' gui=bold')
             end
 
             local current_Mode = alias[vim.fn.mode()]
@@ -64,7 +65,7 @@ gls.left[2] = {
             if current_Mode == nil then
                 return "  Terminal "
             else
-                return "   " .. current_Mode .. " "
+                return "  硫 " .. current_Mode .. " "
             end
         end,
     }
@@ -103,7 +104,7 @@ gls.left[5] = {
         provider = "DiffAdd",
         condition = checkwidth,
         icon = "  ",
-        highlight = {colors.fg, colors.bg}
+        highlight = {colors.green, colors.bg}
     }
 }
 
@@ -112,7 +113,7 @@ gls.left[6] = {
         provider = "DiffModified",
         condition = checkwidth,
         icon = "   ",
-        highlight = {colors.grey, colors.bg}
+        highlight = {colors.yellow, colors.bg}
     }
 }
 
@@ -121,7 +122,7 @@ gls.left[7] = {
         provider = "DiffRemove",
         condition = checkwidth,
         icon = "  ",
-        highlight = {colors.grey, colors.bg}
+        highlight = {colors.red, colors.bg}
     }
 }
 
@@ -147,7 +148,7 @@ gls.right[1] = {
             return " "
         end,
         condition = require("galaxyline.provider_vcs").check_git_workspace,
-        highlight = {colors.bg, colors.lightbg},
+        highlight = {colors.orange, colors.lightbg},
         separator = "",
         separator_highlight = {colors.lightbg, colors.bg}
     }
@@ -157,7 +158,7 @@ gls.right[2] = {
     GitBranch = {
         provider = "GitBranch",
         condition = require("galaxyline.provider_vcs").check_git_workspace,
-        highlight = {colors.bg, colors.lightbg}
+        highlight = {colors.orange, colors.lightbg}
     }
 }
 
@@ -179,4 +180,30 @@ gls.right[4] = {
         end,
         highlight = {colors.lightbg, colors.green}
     }
+}
+
+-- Short status line
+gls.short_line_left[0] = {
+  Indicator = {
+    provider = function()
+      return " "
+    end,
+    highlight = {colors.grey, colors.lightbg}
+  }
+}
+
+gls.short_line_left[1] = {
+  FileIcon = {
+    provider = function()
+      return "   "..fileinfo.get_file_icon().." "
+    end,
+    highlight = {colors.fg, colors.lightbg}
+  }
+}
+
+gls.short_line_left[2] = {
+  FileName = {
+    provider = 'FileName',
+    highlight = { colors.fg, colors.lightbg },
+  }
 }
