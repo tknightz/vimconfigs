@@ -6,6 +6,8 @@ local function opt(scope, key, value)
 end
 
 vim.cmd('set signcolumn=yes')
+vim.cmd('set undodir=~/.vim/undo-dir')
+vim.cmd('set undofile')
 vim.cmd("let &fcs='eob: '")
 
 opt('o', 'encoding','UTF-8')
@@ -21,6 +23,7 @@ opt('o', 'lazyredraw', true)
 opt('o', 'hidden', true)
 opt('o', 'inccommand', 'nosplit')
 opt('o', 'splitbelow', true)
+opt('o', 'splitright', true)
 opt('b', 'tabstop', 2)
 opt('b', 'sw', 2)
 opt('b', 'expandtab', true)

@@ -131,22 +131,13 @@ wk.register({
     l = {"<cmd>PackerLoad<cr>", "load"}
   },
 
-  T = {"<cmd>ToggleTerm<cr>", "terminal"},
+  t = {"<cmd>ToggleTerm<cr>", "terminal"},
 
-  t = {
-    name = "TAb",
-    c = { createNewTab ,"new" },
-    n = {"<cmd>tabnext<cr>", "next"},
-  },
+  j = {"<cmd>WindowJumping<cr>", "jump"},
 
-  j = {"<Plug>(choosewin)", "jump"},
+  q = {"<cmd>q<cr>", "quit" },
 
-  q = {
-    name = "quit",
-    a = {"<cmd>qa<cr>", "all"},
-    q = {"<cmd>q<cr>", "current_file"},
-    ['!'] = {"<cmd>q!<cr>", "no save"}
-  },
+  Q = {"<cmd>qa<cr>", "Quit all"}
 }, { 
   prefix = "<Leader>",
   mode = "n"

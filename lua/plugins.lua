@@ -15,8 +15,9 @@ return require('packer').startup(
     use 'norcalli/nvim-colorizer.lua'
 
     -- Extensions (windows)
-    use 'dosimple/workspace.vim'
+    use 'tpope/vim-fugitive'
     use "kyazdani42/nvim-tree.lua"
+    use 'tknightz/window-jumping.lua'
     use 'akinsho/nvim-bufferline.lua'
     use "akinsho/nvim-toggleterm.lua"
     use {

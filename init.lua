@@ -26,6 +26,7 @@ require("neoscroll").setup()
 vim.g.colorful_transparent = 1
 vim.cmd("colorscheme colorful")
 
+require "nvimToggleTerm"
 require "treeSitter"
 require "teleScope"
 require "nvimTree"

@@ -20,7 +20,7 @@ require "compe".setup {
         vsnip = {kind = "﬌"}, --replace to what sign you prefer
         nvim_lsp = true,
         nvim_lua = true,
-        spell = true,
+        spell = false,
         tags = true,
         snippets_nvim = true,
         treesitter = true

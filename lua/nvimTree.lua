@@ -16,6 +16,7 @@ g.nvim_tree_root_folder_modifier = ":t"
 g.nvim_tree_tab_open = 0
 g.nvim_tree_highlight_opened_files = 1
 g.nvim_tree_allow_resize = 1
+g.nvim_tree_hijack_cursor = 1
 
 g.nvim_tree_window_picker_exclude = {
   filetype = {
@@ -46,8 +47,19 @@ g.nvim_tree_icons = {
     },
     folder = {
         default = "",
-        open = "",
-        symlink = ""
+        arrow_open = "",
+        arrow_closed = "",
+        open = "",
+        empty = "",
+        empty_open = "",
+        symlink = "",
+        symlink_open = ""
+    },
+    lsp = {
+      hint = "",
+      info = "",
+      warning = "",
+      error = ""
     }
 }
 
