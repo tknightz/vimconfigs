@@ -29,6 +29,8 @@ return require('packer').startup(
     use 'machakann/vim-sandwich'
     use 'haya14busa/is.vim'
     use 'szw/vim-maximizer'
+    use 'instant-markdown/vim-instant-markdown'
+
 
     -- LSP
     use 'neovim/nvim-lspconfig'

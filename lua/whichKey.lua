@@ -46,7 +46,7 @@ wk.setup {
   layout = {
     height = { min = 4, max = 25 }, -- min and max height of the columns
     width = { min = 25, max = 50 }, -- min and max width of the columns
-    spacing = 3, -- spacing between columns
+    spacing = 4, -- spacing between columns
   },
   ignore_missing = true, -- enable this to hide mappings for which you didn't specify a label
   hidden = { "<silent>", "<cmd>", "<Cmd>", "<CR>", "call", "lua", "^:", "^ "}, -- hide mapping boilerplate
@@ -118,6 +118,8 @@ wk.register({
     d = {"<cmd>bd<cr>", "delete"},
     ["/"] = {"<cmd>Telescope current_buffer_fuzzy_find<cr>", "search"},
     i = {"<cmd>Telescope buffers<cr>", "iBuffers"},
+    j = {"<cmd>BufferLinePick<cr>", "jump"},
+    s = {"<cmd>BufferLineSortByRelativeDirectory<cr>", "sort"}
   },
 
   p = {
@@ -134,6 +136,12 @@ wk.register({
   t = {"<cmd>ToggleTerm<cr>", "terminal"},
 
   j = {"<cmd>WindowJumping<cr>", "jump"},
+
+  s = {
+    name = "Spelling",
+    t = {"<cmd>set spell!<cr>", "toggle"},
+    f = {"<cmd>Telescope spell_suggest<cr>", "fix"}
+  },
 
   q = {"<cmd>q<cr>", "quit" },
 

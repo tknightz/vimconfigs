@@ -6,79 +6,47 @@ require "bufferline".setup {
         offsets = {{filetype = "NvimTree", text = "Explorer"}},
         buffer_close_icon = "",
         modified_icon = "",
+        indicator_icon = '▎',
         close_icon = " ",
         left_trunc_marker = "",
         right_trunc_marker = "",
         max_name_length = 14,
         max_prefix_length = 13,
         tab_size = 20,
-        show_tab_indicators = true,
+        show_tab_indicators = false,
         enforce_regular_tabs = false,
         view = "multiwindow",
         show_buffer_close_icons = true,
-        separator_style = "thin",
-        mappings = "true"
-    },
-    -- bar colors!!
-    highlights = {
-        fill = {
-            guifg = bar_fg,
-            guibg = "#252931"
-        },
-        background = {
-            guifg = bar_fg,
-            guibg = "#252931"
-        },
-        -- buffer
-        buffer_selected = {
-            guifg = activeBuffer_fg,
-            guibg = "#1e222a",
-            gui = "bold"
-        },
-        buffer_visible = {
-            guifg = "#9298a0",
-            guibg = "#252931"
-        },
-        -- tabs over right
-        tab = {
-            guifg = "#9298a0",
-            guibg = "#30343c"
-        },
-        tab_selected = {
-            guifg = "#30343c",
-            guibg = "#9298a0"
-        },
-        tab_close = {
-            guifg = "#f9929b",
-            guibg = "#252931"
-        },
-        -- buffer separators
-        separator = {
-            guifg = "#252931",
-            guibg = "#252931"
-        },
-        separator_selected = {
-            guifg = "#1e222a",
-            guibg = "#1e222a"
-        },
-        separator_visible = {
-            guifg = "#252931",
-            guibg = "#252931"
-        },
-        indicator_selected = {
-            guifg = "#252931",
-            guibg = "#252931"
-        },
-        -- modified files (but not saved)
-        modified_selected = {
-            guifg = "#A3BE8C",
-            guibg = "#1e222a"
-        },
-        modified_visible = {
-            guifg = "#BF616A",
-            guibg = "#23272f"
+        separator_style = "thick",
+        mappings = "true",
+        diagnostics = "nvim_lsp",
+        custom_areas = {
+          right = function()
+            local result = {}
+            local error = vim.lsp.diagnostic.get_count(0, [[Error]])
+            local warning = vim.lsp.diagnostic.get_count(0, [[Warning]])
+            local info = vim.lsp.diagnostic.get_count(0, [[Information]])
+            local hint = vim.lsp.diagnostic.get_count(0, [[Hint]])
+
+            if error ~= 0 then
+              table.insert(result, {text = "  " .. error, guifg = "#EC5241"})
+            end
+
+            if warning ~= 0 then
+              table.insert(result, {text = "  " .. warning, guifg = "#EFB839"})
+            end
+
+            if hint ~= 0 then
+              table.insert(result, {text = "  " .. hint, guifg = "#A3BA5E"})
+            end
+
+            if info ~= 0 then
+              table.insert(result, {text = "  " .. info, guifg = "#7EA9A7"})
+            end
+            return result
+          end,
         }
-    }
+      },
 }
 
 local opt = {silent = true}

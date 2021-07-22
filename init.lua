@@ -17,15 +17,16 @@
 --
       
 require('plugins')
+
+vim.g.colorful_transparent = 1
+vim.g.colorful_dark = 1
+vim.cmd("colorscheme colorful")
+
 require('mappings')
 require('settings')
 require "statusline"
 require "topbufferline"
 require("neoscroll").setup()
-
-vim.g.colorful_transparent = 1
-vim.cmd("colorscheme colorful")
-
 require "nvimToggleTerm"
 require "treeSitter"
 require "teleScope"

@@ -3,78 +3,81 @@ local gls = gl.section
 local fileinfo = require('galaxyline.provider_fileinfo')
 
 local colors = {
-    bg = "#2e323a",
-    fg = "#abb2bf",
+    bg = "none",
+    fg = "black",
     green = "#67D745",
     red = "#d47d85",
-    lightbg = "#515866",
+    lightbg = "#D1D1D1",
     orange = "#ff8e0c",
     blue = "#7797b7",
     violet = "#FF2F9E",
     yellow = "#e0c080",
     grey = "#6f737b",
-    white = "#ffffff"
+    white = "#ffffff",
 }
 
-gl.short_line_list = {'NvimTree', 'vista', 'dbui'}
+if vim.g.colorful_dark == 1 then
+  colors.bg = "#27343a"
+  colors.lightbg = "#435A64"
+  colors.fg = "#abb2bf"
+end
+
+
+local modes = {
+  n = {"NORMAL", colors.bg, colors.violet}, 
+  i = {"INSERT", colors.bg, colors.green},
+  v = {"VISUAL", colors.white, colors.orange},
+  V={"V-LINE", colors.white, colors.orange},
+  c = {"COMMAND", colors.white, colors.blue},
+  no = {"", colors.white, colors.red},
+  s = {"", colors.white, colors.orange},
+  S= {"", colors.white, colors.orange},
+  [''] = {"VISUAL", colors.bg, colors.orange},
+  [''] = {"V-BLOCK", colors.bg, colors.orange},
+  ic = {"", colors.bg, colors.green},
+  R = {"REPLACE", colors.white, colors.violet},
+  Rv = {"", colors.white, colors.violet},
+  cv = {"", colors.white, colors.red},
+  ce={"", colors.white, colors.red},
+  r = {"REPLACE", colors.bg, colors.cyan},
+  rm = {"", colors.bg, colors.cyan},
+  ['r?'] = {"", colors.bg, colors.blue},
+  ['!']  = {"", colors.white, colors.red},
+  t = {"", colors.white, colors.red}
+}
+
+local get_mode_style = function()
+  local vim_mode = vim.fn.mode()
+  return modes[vim_mode]
+end
+
+gl.short_line_list = {'NvimTree', 'vista', 'dbui', 'toggleterm'}
 
 
 gls.left[2] = {
     ViMode = {
         provider = function()
-            local alias = {
-                n = "NORMAL",
-                i = "INSERT",
-                c = "COMMAND",
-                V = "VISUAL",
-                [""] = "VISUAL",
-                v = "VISUAL",
-                R = "REPLACE"
-            }
-            local mode_color = {
-              n = {colors.bg, colors.violet}, 
-              i = {colors.bg, colors.green},
-              v = {colors.white, colors.orange},
-              [''] = {colors.white, colors.orange},
-              V={colors.white, colors.orange},
-              c = {colors.white, colors.blue},
-              no = {colors.white, colors.red},
-              s = {colors.white, colors.orange},
-              S= {colors.white, colors.orange},
-              [''] = {colors.bg, colors.orange},
-              ic = {colors.bg, colors.green},
-              R = {colors.white, colors.violet},
-              Rv = {colors.white, colors.violet},
-              cv = {colors.white, colors.red},
-              ce={colors.white, colors.red},
-              r = {colors.bg, colors.cyan},
-              rm = {colors.bg, colors.cyan},
-              ['r?'] = {colors.bg, colors.blue},
-              ['!']  = {colors.white, colors.red},
-              t = {colors.white, colors.red}
-            }
-            if mode_color[vim.fn.mode()] == nil then
-              vim.api.nvim_command('hi GalaxyViMode guifg=white guibg=red gui=bold')
-            else
-              vim.api.nvim_command('hi GalaxyViMode guifg='..mode_color[vim.fn.mode()][1]..' guibg='..mode_color[vim.fn.mode()][2]..' gui=bold')
-            end
+          mode_style = get_mode_style()
+          vim.api.nvim_command('hi GalaxyViMode guifg='.. mode_style[2].. ' guibg='..mode_style[3]..' gui=bold')
+          vim.api.nvim_command('hi GalaxyViModeInv guifg='.. mode_style[3].. ' guibg='..colors.lightbg..' gui=none')
 
-            local current_Mode = alias[vim.fn.mode()]
+          local current_Mode = mode_style[1]
 
-
-            if current_Mode == nil then
-                return "  Terminal "
-            else
-                return "  硫 " .. current_Mode .. " "
-            end
+          if current_Mode == nil then
+              return "  Terminal "
+          else
+              return "    "..current_Mode .. " "
+          end
         end,
-    }
+        separator = " ",
+        separator_highlight = "GalaxyViModeInv"
+    },
 }
 
 gls.left[3] = {
     FileIcon = {
         provider = function()
-          return "   "..fileinfo.get_file_icon().." "
+          return " "..fileinfo.get_file_icon().." "
         end,
         condition = buffer_not_empty,
         highlight = {colors.fg, colors.lightbg}
@@ -178,7 +181,7 @@ gls.right[4] = {
         provider = function()
             return "  " .. os.date("%H:%M") .. " "
         end,
-        highlight = {colors.lightbg, colors.green}
+        highlight = {colors.grey, colors.green}
     }
 }
 

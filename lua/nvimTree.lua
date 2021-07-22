@@ -16,7 +16,7 @@ g.nvim_tree_root_folder_modifier = ":t"
 g.nvim_tree_tab_open = 0
 g.nvim_tree_highlight_opened_files = 1
 g.nvim_tree_allow_resize = 1
-g.nvim_tree_hijack_cursor = 1
+g.nvim_tree_icon_padding = '  '
 
 g.nvim_tree_window_picker_exclude = {
   filetype = {
@@ -32,12 +32,13 @@ g.nvim_tree_window_picker_exclude = {
 g.nvim_tree_show_icons = {
     git = 1,
     folders = 1,
-    files = 1
+    files = 1,
+    folder_arrows = 1,
 }
 
 g.nvim_tree_icons = {
-    default = " ",
-    symlink = " ",
+    default = "",
+    symlink = "",
     git = {
         unstaged = "✗",
         staged = "✓",
@@ -79,7 +80,7 @@ vim.api.nvim_set_keymap(
     }
 )
 
-g.nvim_tree_bindings = {
+--[[ g.nvim_tree_bindings = {
     ["<CR>"] = get_lua_cb("edit"),
     ["o"] = get_lua_cb("edit"),
     ["<2-LeftMouse>"] = get_lua_cb("edit"),
@@ -105,4 +106,4 @@ g.nvim_tree_bindings = {
     ["]c"] = get_lua_cb("next_git_item"),
     ["-"] = get_lua_cb("dir_up"),
     ["q"] = get_lua_cb("close")
-}
+} ]]

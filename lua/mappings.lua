@@ -26,6 +26,8 @@ vim.g.indent_blankline_buftype_exclude = {'terminal'}
 vim.g.indent_blankline_char_list = {'│'}
 vim.g.indent_blankline_context_patterns = {'class', 'function', 'method', 'if', 'for', 'while'}
 
+vim.g.instant_markdown_autostart = 0
+
 
 
 -- Autocmd
