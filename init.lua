@@ -16,34 +16,26 @@
 --     You can customize it to solve your problems.
 --
       
-require('plugins')
+require('plugins._packer')
+require("settings._preload")
 
-vim.g.colorful_transparent = 1
-vim.g.colorful_dark = 1
-vim.cmd("colorscheme colorful")
+-- Customization
+require('settings._mappings')
+require('settings._system')
+require("plugins._bufferline")
+require("plugins._tabline")
+require("plugins._treesitter")
+require("plugins._telescope")
+require("plugins._nvimtree")
+require("plugins._comp")
+require("plugins._whichkey")
+require("plugins._lsp")
+require("plugins._lspkind")
+require("plugins._lspsaga")
+require("plugins._colorizer")
 
-require('mappings')
-require('settings')
-require "statusline"
-require "topbufferline"
+-- Default
 require("neoscroll").setup()
-require "nvimToggleTerm"
-require "treeSitter"
-require "teleScope"
-require "nvimTree"
 require("nvim-autopairs").setup()
-require 'colorizer'.setup {
-  'css',
-  'javascript',
-  'vim',
-  html = {
-    mode = 'background'
-  }
-}
 
-require "gitsignConfig"
-require "nvim-lspconfig"
-require "lspConfigs"
-require "completion"
-
-require "whichKey"
+require("settings._postload")
