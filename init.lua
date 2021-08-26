@@ -16,11 +16,9 @@
 --     You can customize it to solve your problems.
 --
 --
-require('plugins._packer')
 require("settings._preload")
-
--- -- Customization
 require('settings._mappings')
 require('settings._system')
+require('plugins._packer')
 require("plugins._whichkey")
 require("settings._postload")

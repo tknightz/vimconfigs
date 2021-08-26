@@ -1,6 +1,9 @@
 vim.g.mapleader = ' '
 vim.g['&fcs'] = 'eob: '
 
+vim.g.user_emmet_leader_key = ','
+vim.g.instant_markdown_autostart = 0
+
 -- KEYBINDINgs
 vim.api.nvim_set_keymap('n', '<Space>', '<NOP>', { noremap = true, silent = true }) -- unset space for whichkey
 vim.api.nvim_set_keymap('n', '<Leader>h', ':set hlsearch!<CR>', { noremap = true, silent = true }) -- toggle highlights
