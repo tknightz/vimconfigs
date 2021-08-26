@@ -37,10 +37,10 @@ local saga = require 'lspsaga'
 -- server_filetype_map = {}
 
 saga.init_lsp_saga {
-  error_sign = '"',
-  warn_sign = '"',
-  infor_sign = '"',
-  hint_sign = '',
+  error_sign = ' ',
+  warn_sign = ' ',
+  infor_sign = ' ',
+  hint_sign = ' ',
 }
 
 -- Mappings

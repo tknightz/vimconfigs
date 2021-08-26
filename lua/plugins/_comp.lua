@@ -12,7 +12,15 @@ require "compe".setup {
     max_abbr_width = 100,
     max_kind_width = 100,
     max_menu_width = 100,
-    documentation = true,
+    documentation = {
+        -- border = { '', '' ,'', ' ', '', '', '', ' ' }, -- the border option is the same as `|help nvim_open_win|`
+        border = { "┌", "─", "┐", "│", "┘", "─", "└", "│" },
+        winhighlight = "NormalFloat:CompeDocumentation,FloatBorder:CompeDocumentationBorder",
+        --[[ max_width = 120,
+        min_width = 60,
+        max_height = math.floor(vim.o.lines * 0.3),
+        min_height = 1, ]]
+    },
     source = {
         path = true,
         buffer = {kind = "﬘", true},
@@ -23,7 +31,7 @@ require "compe".setup {
         spell = false,
         tags = true,
         snippets_nvim = true,
-        treesitter = true
+        treesitter = true,
     }
 }
 
@@ -40,17 +48,14 @@ local check_back_space = function()
     end
 end
 
--- tab completion
-
 _G.tab_complete = function()
     if vim.fn.pumvisible() == 1 then
         return t "<C-n>"
     elseif check_back_space() then
         return t "<Tab>"
-    --[[ else
-        return vim.fn["compe#complete"]() ]]
     end
 end
+
 _G.s_tab_complete = function()
     if vim.fn.pumvisible() == 1 then
         return t "<C-p>"
@@ -62,12 +67,6 @@ _G.s_tab_complete = function()
 end
 
 --  mappings
-
-vim.api.nvim_set_keymap("i", "<Tab>", "v:lua.tab_complete()", {expr = true})
-vim.api.nvim_set_keymap("s", "<Tab>", "v:lua.tab_complete()", {expr = true})
-vim.api.nvim_set_keymap("i", "<S-Tab>", "v:lua.s_tab_complete()", {expr = true})
-vim.api.nvim_set_keymap("s", "<S-Tab>", "v:lua.s_tab_complete()", {expr = true})
-
 function _G.completions()
     local npairs = require("nvim-autopairs")
     if vim.fn.pumvisible() == 1 then
@@ -78,10 +77,14 @@ function _G.completions()
     return npairs.check_break_line_char()
 end
 
+vim.api.nvim_set_keymap("i", "<Tab>", "v:lua.tab_complete()", {expr = true})
+vim.api.nvim_set_keymap("s", "<Tab>", "v:lua.tab_complete()", {expr = true})
+vim.api.nvim_set_keymap("i", "<S-Tab>", "v:lua.s_tab_complete()", {expr = true})
+vim.api.nvim_set_keymap("s", "<S-Tab>", "v:lua.s_tab_complete()", {expr = true})
 vim.api.nvim_set_keymap("i", "<CR>", "v:lua.completions()", {expr = true})
 
-local g = vim.g
 
+local g = vim.g
 -- speeden up compe
 g.loaded_compe_calc = 0
 g.loaded_compe_emoji = 0

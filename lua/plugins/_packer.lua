@@ -1,78 +1,138 @@
 vim.cmd [[packadd packer.nvim]]
 
-return require('packer').startup(
-  function()
-    -- Packer can manage itself as an optional plugin
-    use {'wbthomason/packer.nvim', opt = true}
 
-    -- Colors and icons
-    use {'tknightz/colorful.vim', opt = false}
-    use {"kyazdani42/nvim-web-devicons", opt = false}
-    use {"ryanoasis/vim-devicons", opt = false}
-    -- use {'lukas-reineke/indent-blankline.nvim', branch = 'lua'}
-    use {
-      "nvim-treesitter/nvim-treesitter",
-      requires = {
-        { "nvim-treesitter/playground" }, -- playground for treesitter
-      },
-      opt = false,
-    }
-    use {'norcalli/nvim-colorizer.lua', opt = false}
+return require("packer").startup(
+    function()
+        -- Packer can manage itself as an optional plugin
+        use { "wbthomason/packer.nvim", opt = false}
 
-    -- Extensions (windows)
-    use {'junegunn/vim-easy-align', opt = false}
-    use {'plasticboy/vim-markdown', opt = true, ft = {'md'}}
-    use {'tpope/vim-fugitive', opt = true, cmd = {"Git"} }
-    use {"kyazdani42/nvim-tree.lua", opt = true, cmd = {"NvimTreeToggle", "NvimTreeOpen", "NvimTreeFindFile"}} -- Tree file manager
-    use {'tknightz/window-jumping.lua', opt = true, cmd = "WindowJumping"} -- Quick jumping over windows
-    use {'akinsho/nvim-bufferline.lua', opt = false}
-    use {"akinsho/nvim-toggleterm.lua", opt = true, cmd = "ToggleTerm"}
-    use {
-			'nvim-telescope/telescope.nvim',
-			requires = {
-        {'nvim-lua/popup.nvim'},
-        {'nvim-lua/plenary.nvim'},
-        {'nvim-telescope/telescope-fzf-native.nvim', run = 'make' },
-        { "nvim-telescope/telescope-media-files.nvim" },
-        { "nvim-telescope/telescope-frecency.nvim" },
-      },
-      opt = false,
-  	}
-    use {'b3nj5m1n/kommentary', opt = false}
-    use {'machakann/vim-sandwich', opt = false}
-    use {'haya14busa/is.vim', opt = false}
-    use {'szw/vim-maximizer', opt = true, cmd = "MaximizerToggle"}
-    use {'instant-markdown/vim-instant-markdown', opt = true, ft = {'md'}}
-    use {"lukas-reineke/indent-blankline.nvim", opt = true, ft = {"html", "js", "python"}}
+        -- APPERANCES (COLORSCHEME, BUFFERLINE, TOPBAR...)
+        use 'folke/tokyonight.nvim'
 
+        -- use { "tknightz/colorful.vim", branch = "for_nvim" }
+        use { "kyazdani42/nvim-web-devicons" }
+        use { "ryanoasis/vim-devicons" }
+        use {
+            "nvim-treesitter/nvim-treesitter",
+            event = "VimEnter",
+            config = function() require("plugins._treesitter") end
+        }
+        use {
+            "glepnir/galaxyline.nvim", config = function() require("plugins._galaxyline") end
+        }
+        use {
+            "norcalli/nvim-colorizer.lua",
+            event = "BufRead",
+            config = function() require("plugins._colorizer") end
+        }
+        use {
+            "lukas-reineke/indent-blankline.nvim",
+            event = "BufRead",
+            cmd = { "IndentBlanklineToggle", "IndentBlanklineEnable" },
+            config = function() require("plugins._indentline") end
+        }
+        use {
+            "akinsho/nvim-bufferline.lua",
+            config = function() require("plugins._bufferline") end
+        }
 
-    -- LSP
-    use {'neovim/nvim-lspconfig', opt = false}
-    use {"onsails/lspkind-nvim", opt = false}
-    use {"glepnir/lspsaga.nvim", opt = false}
-    use {
-      "hrsh7th/nvim-compe",
-      opt = false,
-      requires = {
-        { "hrsh7th/vim-vsnip", opt = true, ft = {"html"} },
-      },
-    }
-    use {"rafamadriz/friendly-snippets", opt = true, ft = {"html"}}
-    use {'Vimjas/vim-python-pep8-indent', opt = true, ft = {"python"}}
+        -- EXTENSIONS (WINDOWS)
+        use { "nvim-treesitter/playground", event = "BufRead" }
+        use { "plasticboy/vim-markdown", ft = {"markdown"} }
+        use {
+            "kyazdani42/nvim-tree.lua",
+            cmd = { "NvimTreeToggle", "NvimTreeOpen", "NvimTreeFindFile"},
+            setup = function() require("plugins._nvimtree") end
+        }
+        use { "tknightz/window-jumping.lua", cmd = "WindowJumping" }
+        use {
+            "akinsho/nvim-toggleterm.lua",
+            cmd = "ToggleTerm",
+            config = function() require("plugins._toggleterm") end
+        }
+        use {
+            "nvim-telescope/telescope.nvim",
+            requires = {
+                { "nvim-lua/popup.nvim"},
+                { "nvim-lua/plenary.nvim"},
+                { "nvim-telescope/telescope-fzf-native.nvim", run = "make" },
+                { "nvim-telescope/telescope-media-files.nvim" },
+                { "nvim-telescope/telescope-frecency.nvim" },
+            },
+            cmd = { "Telescope"},
+            config = function() require("plugins._telescope") end
+        }
+        use { "haya14busa/is.vim", event = "BufRead" }
+        use { "szw/vim-maximizer", cmd = "MaximizerToggle" }
+        use { "instant-markdown/vim-instant-markdown", ft = {"markdown"} }
 
-    -- Project and version control
-    use {'lewis6991/gitsigns.nvim', opt = false}
-    use {'glepnir/galaxyline.nvim', opt = false}
-    use {'windwp/nvim-autopairs', opt = false}
-    use {'alvan/vim-closetag', opt = true, ft = {"html"}}
+        -- EDITOR
+        use { "b3nj5m1n/kommentary", keys = {"<Plug>kommentary_line_default", "<Plug>kommentary_visual_default"} }
+        use { "junegunn/vim-easy-align", keys = "<Plug>{EasyAlign)", cmd = "EasyAlign" }
+        use {
+            "machakann/vim-sandwich",
+            key = {
+                "<Plug>(operator-sandwich-add)",
+                "<Plug>(operator-sandwich-delete)",
+                "<Plug>(operator-sandwich-release-count)",
+                "<Plug>(textobj-sandwich-query-a)",
+                "<Plug>(operator-sandwich-replace)",
+                "<Plug>(textobj-sandwich-auto-a)"
+            }
+        }
+        use {
+            "windwp/nvim-autopairs",
+            event = "InsertEnter",
+            config = function() require("nvim-autopairs").setup() end
+        }
+        use { "alvan/vim-closetag", ft = {"html", "javascript", "javascriptreact"} }
 
-    -- UX
-    use {'karb94/neoscroll.nvim', opt = false}
-    use {'folke/which-key.nvim', opt = false}
-  end,
-  {
-    display = {
-      border = { "┌", "─", "┐", "│", "┘", "─", "└", "│" }
-    }
-  }
-)
+        -- LSP AND COMPLETION
+        use {
+            "neovim/nvim-lspconfig",
+            event = "VimEnter",
+            config = function() require("plugins._lsp") end
+        }
+        use {
+            "onsails/lspkind-nvim",
+            event = "VimEnter",
+            config = function() require("plugins._lspkind") end
+        }
+        -- use { "glepnir/lspsaga.nvim", opt = false}
+        use { "folke/trouble.nvim", event = "BufRead" }
+        use {
+            "hrsh7th/nvim-compe",
+            event = "InsertEnter",
+            config = function() require("plugins._comp") end,
+        }
+        use { "Vimjas/vim-python-pep8-indent", ft = {"python"} }
+        use {
+            "ray-x/go.nvim",
+            ft = {"go"},
+            config = function() require("plugins._go") end
+        }
+        use { "mattn/emmet-vim", ft = {"html", "css", "javascript", "javascriptreact"} }
+
+        -- PROJECT AND VERSION CONTROL
+        use { "tpope/vim-fugitive", cmd = {"Git"} }
+        use {
+            "lewis6991/gitsigns.nvim",
+            event = "BufRead",
+            config = function() require("plugins._gitsigns") end
+        }
+        use { "tweekmonster/startuptime.vim", cmd = "StartupTime" }
+        use { "simnalamburt/vim-mundo", cmd = {"MundoShow", "MundoToggle"} }
+
+        -- UX
+        use { "famiu/bufdelete.nvim", cmd = {"Bdelete", "Bwipeout"} }
+        use { "karb94/neoscroll.nvim", event = "BufRead" }
+        use { "folke/which-key.nvim" }
+    end,
+    {
+        display = {
+            border = { "┌", "─", "┐", "│", "┘", "─", "└", "│" }
+        },
+        git = {
+            clone_timeout = 300
+        }
+})

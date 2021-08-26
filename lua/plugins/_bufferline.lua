@@ -1,212 +1,58 @@
-local gl = require("galaxyline")
-local gls = gl.section
-local fileinfo = require('galaxyline.provider_fileinfo')
+require "bufferline".setup {
+  options = {
+    offsets = {{filetype = "NvimTree", text = "Explorer"}},
+    buffer_close_icon = "",
+    modified_icon = "",
+    indicator_icon = '|',
+    close_icon = "",
+    left_trunc_marker = "",
+    right_trunc_marker = "",
+    max_name_length = 14,
+    max_prefix_length = 13,
+    tab_size = 20,
+    show_tab_indicators = false,
+    enforce_regular_tabs = false,
+    view = "multiwindow",
+    show_buffer_close_icons = true,
+    separator_style = "thin",
+    diagnostics = "nvim_lsp",
+    custom_areas = {
+      right = function()
+        local result = {}
+        local error = vim.lsp.diagnostic.get_count(0, [[Error]])
+        local warning = vim.lsp.diagnostic.get_count(0, [[Warning]])
+        local info = vim.lsp.diagnostic.get_count(0, [[Information]])
+        local hint = vim.lsp.diagnostic.get_count(0, [[Hint]])
 
-local colors = {
-  bg = "none",
-  fg = "black",
-  green = "#67D745",
-  red = "#d47d85",
-  lightbg = "#D1D1D1",
-  orange = "#ff8e0c",
-  blue = "#7797b7",
-  violet = "#FF2F9E",
-  yellow = "#e0c080",
-  grey = "#6f737b",
-  white = "#ffffff",
-}
+        if error ~= 0 then
+          table.insert(result, {text = "  " .. error, guifg = "#EC5241"})
+        end
 
-if vim.g.colorful_dark == 1 then
-  colors.bg = "#27343a"
-  colors.lightbg = "#435A64"
-  colors.fg = "#abb2bf"
-end
+        if warning ~= 0 then
+          table.insert(result, {text = "  " .. warning, guifg = "#EFB839"})
+        end
 
+        if hint ~= 0 then
+          table.insert(result, {text = "  " .. hint, guifg = "#A3BA5E"})
+        end
 
-local modes = {
-  n = {"NORMAL", colors.bg, colors.violet}, 
-  i = {"INSERT", colors.bg, colors.green},
-  v = {"VISUAL", colors.white, colors.orange},
-  V={"V-LINE", colors.white, colors.orange},
-  c = {"COMMAND", colors.white, colors.blue},
-  no = {"", colors.white, colors.red},
-  s = {"", colors.white, colors.orange},
-  S= {"", colors.white, colors.orange},
-  [''] = {"VISUAL", colors.bg, colors.orange},
-  [''] = {"V-BLOCK", colors.bg, colors.orange},
-  ic = {"", colors.bg, colors.green},
-  R = {"REPLACE", colors.white, colors.violet},
-  Rv = {"", colors.white, colors.violet},
-  cv = {"", colors.white, colors.red},
-  ce={"", colors.white, colors.red},
-  r = {"REPLACE", colors.bg, colors.cyan},
-  rm = {"", colors.bg, colors.cyan},
-  ['r?'] = {"", colors.bg, colors.blue},
-  ['!']  = {"", colors.white, colors.red},
-  t = {"", colors.white, colors.red}
-}
-
-local get_mode_style = function()
-  local vim_mode = vim.fn.mode()
-  return modes[vim_mode]
-end
-
-gl.short_line_list = {'NvimTree', 'vista', 'dbui', 'toggleterm'}
-
-
-gls.left[2] = {
-  ViMode = {
-    provider = function()
-      mode_style = get_mode_style()
-      vim.api.nvim_command('hi GalaxyViMode guifg='.. mode_style[2].. ' guibg='..mode_style[3]..' gui=bold')
-      vim.api.nvim_command('hi GalaxyViModeInv guifg='.. mode_style[3].. ' guibg='..colors.lightbg..' gui=none')
-
-      local current_Mode = mode_style[1]
-
-      if current_Mode == nil then
-        return "  Terminal "
-      else
-        return "    "..current_Mode .. " "
-      end
-    end,
-    separator = " ",
-    separator_highlight = "GalaxyViModeInv"
+        if info ~= 0 then
+          table.insert(result, {text = "   " .. info, guifg = "#7EA9A7"})
+        end
+        return result
+      end,
+    },
   },
 }
 
-gls.left[3] = {
-  FileIcon = {
-    provider = function()
-      return " "..fileinfo.get_file_icon().." "
-    end,
-    condition = buffer_not_empty,
-    highlight = {colors.fg, colors.lightbg}
-  }
-}
+local opt = {silent = true}
+local map = vim.api.nvim_set_keymap
+vim.g.mapleader = " "
 
-gls.left[4] = {
-  FileName = {
-    provider = "FileName",
-    condition = buffer_not_empty,
-    highlight = {colors.fg, colors.lightbg},
-    separator = " ",
-    separator_highlight = {colors.lightbg, colors.bg}
-  }
-}
+-- MAPPINGS
+map("n", "<S-t>", [[<Cmd>tabnew<CR>]], opt) -- new tab
+map("n", "<S-x>", [[<Cmd>bdelete<CR>]], opt) -- close tab
 
-local checkwidth = function()
-  local squeeze_width = vim.fn.winwidth(0) / 2
-  if squeeze_width > 30 then
-    return true
-  end
-  return false
-end
-
-gls.left[5] = {
-  DiffAdd = {
-    provider = "DiffAdd",
-    condition = checkwidth,
-    icon = "  ",
-    highlight = {colors.green, colors.bg}
-  }
-}
-
-gls.left[6] = {
-  DiffModified = {
-    provider = "DiffModified",
-    condition = checkwidth,
-    icon = "   ",
-    highlight = {colors.yellow, colors.bg}
-  }
-}
-
-gls.left[7] = {
-  DiffRemove = {
-    provider = "DiffRemove",
-    condition = checkwidth,
-    icon = "  ",
-    highlight = {colors.red, colors.bg}
-  }
-}
-
-gls.left[8] = {
-  DiagnosticError = {
-    provider = "DiagnosticError",
-    icon = "  ",
-    highlight = {colors.red, colors.bg}
-  }
-}
-
-gls.left[9] = {
-  DiagnosticWarn = {
-    provider = "DiagnosticWarn",
-    icon = "  ",
-    highlight = {colors.yellow, colors.bg}
-  }
-}
-
-gls.right[1] = {
-  GitIcon = {
-    provider = function()
-      return " "
-    end,
-    condition = require("galaxyline.provider_vcs").check_git_workspace,
-    highlight = {colors.orange, colors.lightbg},
-    separator = "",
-    separator_highlight = {colors.lightbg, colors.bg}
-  }
-}
-
-gls.right[2] = {
-  GitBranch = {
-    provider = "GitBranch",
-    condition = require("galaxyline.provider_vcs").check_git_workspace,
-    highlight = {colors.orange, colors.lightbg}
-  }
-}
-
-gls.right[3] = {
-  time_icon = {
-    provider = function()
-      return "  "
-    end,
-    separator = " ",
-    separator_highlight = {colors.green, colors.lightbg},
-    highlight = {colors.grey, colors.green}
-  }
-}
-
-gls.right[4] = {
-  time = {
-    provider = function()
-      return "  " .. os.date("%H:%M") .. " "
-    end,
-    highlight = {colors.grey, colors.green}
-  }
-}
-
--- Short status line
-gls.short_line_left[0] = {
-  Indicator = {
-    provider = function()
-      return " "
-    end,
-    highlight = {colors.grey, colors.lightbg}
-  }
-}
-
-gls.short_line_left[1] = {
-  FileIcon = {
-    provider = function()
-      return "   "..fileinfo.get_file_icon().." "
-    end,
-    highlight = {colors.fg, colors.lightbg}
-  }
-}
-
-gls.short_line_left[2] = {
-  FileName = {
-    provider = 'FileName',
-    highlight = { colors.fg, colors.lightbg },
-  }
-}
+-- move between tabs
+map("n", "<TAB>", [[<Cmd>BufferLineCycleNext<CR>]], opt)
+map("n", "<S-TAB>", [[<Cmd>BufferLineCyclePrev<CR>]], opt)
