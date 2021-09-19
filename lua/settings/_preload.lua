@@ -1,16 +1,32 @@
--- Load theme
-vim.g.tokyonight_italic_functions = "true"
-vim.g.tokyonight_style = "night"
-vim.cmd[[colorscheme tokyonight]]
+local g = vim.g
 
+vim.cmd([[
+	syntax off
+	filetype off
+	filetype plugin indent off
+]])
 
-vim.g.loaded_gzip         = 1
-vim.g.loaded_tar          = 1
-vim.g.loaded_tarPlugin    = 1
-vim.g.loaded_zipPlugin    = 1
-vim.g.loaded_2html_plugin = 1
-vim.g.loaded_netrw        = 1
-vim.g.loaded_netrwPlugin  = 1
-vim.g.loaded_matchit      = 1
--- vim.g.loaded_matchparen   = 1
-vim.g.loaded_spec         = 1
+g.loaded_gzip = 1
+g.loaded_zip = 1
+g.loaded_zipPlugin = 1
+g.loaded_tar = 1
+g.loaded_tarPlugin = 1
+
+g.loaded_getscript = 1
+g.loaded_getscriptPlugin = 1
+g.loaded_vimball = 1
+g.loaded_vimballPlugin = 1
+g.loaded_2html_plugin = 1
+
+g.loaded_matchit = 1
+g.loaded_matchparen = 1
+g.loaded_logiPat = 1
+g.loaded_rrhelper = 1
+
+g.loaded_netrw = 1
+g.loaded_netrwPlugin = 1
+g.loaded_netrwSettings = 1
+g.loaded_netrwFileHandlers = 1
+
+-- Theme load
+-- require('colorful').set()

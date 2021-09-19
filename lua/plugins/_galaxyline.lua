@@ -4,6 +4,8 @@ local fileinfo = require('galaxyline.provider_fileinfo')
 local condition = require('galaxyline.condition')
 local buffer_not_empty = require('galaxyline.provider_fileinfo').buffer_not_empty
 
+gl.short_line_list = {'NvimTree', 'vista', 'dbui', 'toggleterm', 'minimap'}
+
 
 local colors = {
   bg          = "#27343A",
@@ -51,7 +53,6 @@ local get_mode_style = function()
   return modes[vim_mode]
 end
 
-gl.short_line_list = {'NvimTree', 'vista', 'dbui', 'toggleterm'}
 
 
 gls.left[2] = {

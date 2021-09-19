@@ -1,2 +1,6 @@
-vim.api.nvim_command('hi IndentBlankLineChar guifg=#263238 guibg=none gui=none')
-vim.api.nvim_command('hi IndentBlankLineContextChar guifg=#592460 guibg=none gui=none')
+vim.cmd[[hi NotificationInfo guifg=#91E94F guibg=#3E3A44]]
+vim.cmd[[hi NotificationWarning guifg=#FF8F1E guibg=#3E3A44]]
+vim.cmd[[hi NotificationError guifg=#FF3F3F guibg=#3E3A44]]
+vim.cmd[[hi BufferLineFill guibg=#1f292e]]
+vim.cmd[[hi BufferLineBackground guibg=#1b2428]]
+vim.cmd[[hi BufferLineBufferSelected gui=italic]]

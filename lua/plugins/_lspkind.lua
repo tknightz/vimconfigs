@@ -18,6 +18,7 @@ require('lspkind').init({
       Text = '',
       Method = ' ',
       Function = ' ',
+      ['function'] = ' ',
       Constructor = ' ',
       Variable = ' ',
       Class = ' ',

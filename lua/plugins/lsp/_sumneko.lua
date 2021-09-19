@@ -9,9 +9,7 @@ local sumneko_binary = USER .. "/Downloads/Apps/lua-language-server/bin/Linux/lu
 lspconf.sumneko_lua.setup {
     on_attach = preset.on_attach,
     cmd = {sumneko_binary, "-E", sumneko_root_path .. "/main.lua"},
-    root_dir = function()
-        return vim.loop.cwd()
-    end,
+    root_dir = vim.loop.cwd,
     settings = {
         Lua = {
             runtime = {

@@ -23,11 +23,12 @@ require "compe".setup {
     },
     source = {
         path = true,
-        buffer = {kind = "﬘", true},
+        buffer = {kind = "  ", true},
         calc = true,
         vsnip = {kind = "﬌"}, --replace to what sign you prefer
         nvim_lsp = true,
         nvim_lua = true,
+        ultisnips = true,
         spell = false,
         tags = true,
         snippets_nvim = true,
