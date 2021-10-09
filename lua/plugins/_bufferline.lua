@@ -42,6 +42,17 @@ require "bufferline".setup {
 				return result
 			end,
 		},
+		-- highlights = {
+		-- 	background = {
+		-- 		guibg = '#1b2428',
+		-- 	},
+		-- 	fill = {
+		-- 		guibg = "#1f292e",	
+		-- 	},
+		-- 	tab_selected = {
+		-- 		style = "italic",
+		-- 	}
+		-- }
 	},
 }
 
@@ -56,3 +67,8 @@ map("n", "<S-x>", [[<Cmd>bdelete<CR>]], opt) -- close tab
 -- move between tabs
 map("n", "<TAB>", [[<Cmd>BufferLineCycleNext<CR>]], opt)
 map("n", "<S-TAB>", [[<Cmd>BufferLineCyclePrev<CR>]], opt)
+
+-- highlights
+vim.cmd[[hi BufferLineFill guibg=#1f292e]]
+vim.cmd[[hi BufferLineBackground guibg=#1b2428]]
+vim.cmd[[hi BufferLineBufferSelected gui=italic]]

@@ -1,5 +1,7 @@
+local theme = "colorful.vim"
+
 return require("packer").startup(
-	function()
+	function(use)
 		-- Packer can manage itself as an optional plugin
 		use {
 			"wbthomason/packer.nvim",
@@ -11,7 +13,7 @@ return require("packer").startup(
 		use { "tweekmonster/startuptime.vim", cmd = "StartupTime" }
 
 		-- APPERANCES (COLORSCHEME, BUFFERLINE, TOPBAR...)
-		use { 
+		use {
 			"tknightz/colorful.vim",
 			branch = "for_nvim",
 			event = {"VimEnter", "BufRead"},
@@ -24,19 +26,30 @@ return require("packer").startup(
 				require('colorful').set()
 			end
 		}
-		-- use { "marko-cerovac/material.nvim" }
-		-- use { "folke/tokyonight.nvim" }
 
-		use { "kyazdani42/nvim-web-devicons", module = "nvim-web-devicons" }
-		-- use { "ryanoasis/vim-devicons" }
+		use {
+			"folke/todo-comments.nvim",
+			after = theme,
+			config = function()
+				require("todo-comments").setup {}
+			end
+		}
+
+		use { 
+			"kyazdani42/nvim-web-devicons",
+			config = function()
+				require("plugins._fileicons")
+			end,
+			module = "nvim-web-devicons"
+		}
 		use {
 			"nvim-treesitter/nvim-treesitter",
-			event = "BufRead",
+			after = theme,
 			config = function() require("plugins._treesitter") end
 		}
 		use {
 			'hoob3rt/lualine.nvim',
-			after = "colorful.vim",
+			after = theme,
 			config = function() require("plugins._lualine") end
 		}
 		use {
@@ -45,45 +58,81 @@ return require("packer").startup(
 			config = function() require("plugins._colorizer") end
 		}
 		use {
-			"glepnir/indent-guides.nvim",
-			cmd = {"IndentGuidesToggle", "IndentGuidesEnable"}
-		}
-		use {
 			"maxmellon/vim-jsx-pretty",
 			ft = {"javascriptreact", "typescriptreact"}
 		}
 
 		use {
 			"akinsho/nvim-bufferline.lua",
-			after = "colorful.vim",
+			after = theme,
 			config = function() require("plugins._bufferline") end
 		}
 
 		-- EXTENSIONS (WINDOWS)
-		--[[ use {'/home/tulen/ViMaster/telescope-termfinder.nvim'}
-		use {"akinsho/toggleterm.nvim"} ]]
+		use { 
+			"kristijanhusak/orgmode.nvim",
+			after = theme,
+			config = function()
+				require('plugins._orgmode')
+			end
+		}
+		use {
+			'lukas-reineke/headlines.nvim',
+			ft = {"markdown", "org"},
+			config = function()
+				require('headlines').setup()
+			end,
+		}
+
+		use {
+			"akinsho/org-bullets.nvim",
+			after = {"orgmode.nvim"},
+			config = function()
+				require("org-bullets").setup {
+					symbols = { "◉", "○", "✸", "✿" }
+				}
+			end
+		}
+
+		use { 
+			'michaelb/sniprun',
+			run = 'bash ./install.sh',
+			cmd = {"SnipRun", "SnipInfo", "SnipReset"}
+		}
 
 		use { "nvim-treesitter/playground", cmd = {"TSPlaygroundToggle"} }
 		use {
 			"kyazdani42/nvim-tree.lua",
 			cmd = { "NvimTreeToggle", "NvimTreeOpen", "NvimTreeFindFile"},
-			setup = function() require("plugins._nvimtree") end,
+			setup = function() require("plugins._nvimtree").setup() end,
 			config = function()
-				local tree_cb = require'nvim-tree.config'.nvim_tree_callback
-				vim.g.nvim_tree_bindings = {
-					{ key = "e", cb = tree_cb("cd") }
-				}
+				require('plugins._nvimtree').config()
 			end
 		}
+
+		use {
+			"simnalamburt/vim-mundo",
+			cmd = {"MundoShow", "MundoToggle"}
+		}
+		
+		use {
+			"lukas-reineke/indent-blankline.nvim",
+			after = theme,
+			config = function()
+				require('plugins._indentline')
+			end
+		}
+
 		use { "tknightz/window-jumping.lua", cmd = "WindowJumping" }
 		use {
 			"nvim-telescope/telescope.nvim",
 			requires = {
 				{ "nvim-lua/popup.nvim", module = "popup" },
 				{ "nvim-lua/plenary.nvim", module = "plenary" },
+				{ "nvim-telescope/telescope-symbols.nvim" },
 				{ "nvim-telescope/telescope-fzf-native.nvim", run = "make" },
 				{ "nvim-telescope/telescope-project.nvim", after = "telescope.nvim" },
-				{ "nvim-telescope/telescope-arecibo.nvim", after = "telescope.nvim", rocks = {"openssl", "lua-http-parser"}}
+				{ "nvim-telescope/telescope-arecibo.nvim", after = "telescope.nvim", rocks = {"openssl", "lua-http-parser"} },
 			},
 			cmd = {"Telescope", "EztermFind"},
 			config = function() require("plugins._telescope") end
@@ -162,7 +211,6 @@ return require("packer").startup(
 			cmd = {"LspTrouble", "LspTroubleToggle", "LspTroubleOpen", "LspWorkplaceOpen"}
 		}
 		-- use { "glepnir/lspsaga.nvim", opt = false}
-		
 		use {
 			"onsails/lspkind-nvim",
 			after = "nvim-compe",
@@ -187,7 +235,7 @@ return require("packer").startup(
 		}
 
 		use { "mattn/emmet-vim",
-			ft = {"html", "css", "javascript", "javascriptreact", "typescriptreact", "typescript"}
+			ft = {"html", "css", "javascriptreact", "typescriptreact" }
 		}
 
 		use {
@@ -217,21 +265,20 @@ return require("packer").startup(
 
 		-- UX
 		use { "famiu/bufdelete.nvim", cmd = {"Bdelete", "Bwipeout"} }
-		use { 
+		use {
 			"karb94/neoscroll.nvim",
 			event = "BufRead",
 			config = function()
 				require('neoscroll').setup()
 			end
 		}
-		use { 
-			"folke/which-key.nvim", 
-			keys = {"<leader>", "<space>"},
+		use {
+			"folke/which-key.nvim",
+			keys = {"<leader>", "<Space>"},
 			config = function()
 				require('plugins._whichkey')
 			end
 		}
-
 	end,
 	{
 		display = {

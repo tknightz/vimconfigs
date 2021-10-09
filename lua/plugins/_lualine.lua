@@ -2,6 +2,9 @@ local function shorten_str(str, size)
   local len = size and size or 27
 
   local strlen = string.len(str)
+	if string.len(str) == 0 then
+		return '_blank'
+	end
   if string.len(str) < len then
     return str
   end
@@ -15,7 +18,9 @@ end
 local function shorten_bufname()
   local path = vim.api.nvim_buf_get_name(0)
   local filename = vim.api.nvim_call_function('fnamemodify', {path, ':t'})
-  return shorten_str(filename)
+  local ext = vim.api.nvim_call_function('fnamemodify', {path, ':e'})
+	local icon = require('nvim-web-devicons').get_icon(filename, ext, { default = true })
+  return icon .. "  " .. shorten_str(filename)
 end
 
 require'lualine'.setup {
@@ -24,7 +29,7 @@ require'lualine'.setup {
     theme = 'material',
     component_separators = {'', ''},
     section_separators = {'', ''},
-    disabled_filetypes = {"NvimTree", "packer", "minimap", "dbui"}
+    disabled_filetypes = {"NvimTree", "Mundo", "MudoDiff", "packer", "minimap", "dbui", "DiffviewFiles"}
   },
   sections = {
     lualine_a = {'mode'},

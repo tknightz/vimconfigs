@@ -49,7 +49,7 @@ telescope.setup {
       "--smart-case"
     },
     layout_config = {
-      prompt_position = "bottom",
+      prompt_position = "top",
       width = 0.8,
       preview_cutoff = 120,
       horizontal = {
@@ -87,7 +87,7 @@ telescope.setup {
     find_files = {
       previewer = false,
       theme = "dropdown",
-      file_ignore_patterns = { "%.gif", "%.png", "%.jpg", "%.webp", "%.ico", "%.min.js", "%.min.css", "%.map", ".git/.*" },
+      file_ignore_patterns = { "%.gif", "%.png", "%.jpg", "%.jpeg", "%.webp", "%.ico", "%.min.js", "%.min.css", "%.map", ".git/.*" },
     },
     buffers = {
       show_all_buffers = true,
@@ -118,6 +118,9 @@ telescope.setup {
       end 
     },
   },
+	symbols = {
+		sources = {'emoji', 'kaomoji', 'gitmoji', 'math', 'latex'}
+	},
   extensions = {
     fzf = {
       fuzzy = true,

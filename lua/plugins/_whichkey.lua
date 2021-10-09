@@ -1,5 +1,6 @@
 local wk = require('which-key')
 local util = require('util')
+local orgmode = require('plugins._orgmode')
 
 
 wk.setup {
@@ -41,7 +42,7 @@ wk.setup {
     width = { min = 25, max = 50 }, -- min and max width of the columns
     spacing = 4, -- spacing between columns
   },
-  ignore_missing = true, -- enable this to hide mappings for which you didn't specify a label
+  ignore_missing = false, -- enable this to hide mappings for which you didn't specify a label
   hidden = { "<silent>", "<cmd>", "<Cmd>", "<CR>", "call", "lua", "^:", "^ "}, -- hide mapping boilerplate
   show_help = true, -- show help message on the command line when the popup is visible
   -- triggers = "auto", -- automatically setup triggers
@@ -49,7 +50,6 @@ wk.setup {
 }
 
 wk.register({
-
   -- Files
   f = {
     name = "File",
@@ -98,7 +98,7 @@ wk.register({
     c = {"<cmd>Telescope git_commits<cr>",  "commits"},
     d = {
       name = "diff",
-      v = {"<cmd>DiffviewOpen<cr>",         "view"},
+      o = {"<cmd>DiffviewOpen<cr>",         "open"},
       c = {"<cmd>DiffviewClose<cr>",        "close"},
       f = {"<cmd>Telescope git_status<cr>", "files"},
       h = {"<cmd>DiffviewFileHistory<cr>",  "history"},
@@ -147,7 +147,7 @@ wk.register({
     l = { "<cmd>Ezterm right<cr>", "right" },
     h = { "<cmd>Ezterm left<cr>", "left" },
     c = { "<cmd>Ezterm<cr>", "center" },
-    i = {"<cmd>EztermFind<cr>", "i-term"},
+    i = { "<cmd>lua require('ezterm').ezterm_command()<cr>", "i-term" },
   },
 
   u = {
@@ -183,6 +183,7 @@ wk.register({
     b = {"<cmd>Telescope buffers<cr>",                       "buffers"},
     o = {"<cmd>Telescope oldfiles<cr>",                      "oldfiles"},
     p = {"<cmd>Telescope project project<cr>",               "project"},
+		e = {"<cmd>Telescope symbols<cr>",                       "emoji"},
 		['/'] = {"<cmd>Telescope<cr>", "overview"},
     l = {
       name = "LSP",
@@ -216,6 +217,8 @@ wk.register({
     t = {util.toggle_lsp,                                           "toggle"},
   },
 
+	o = orgmode.mappings,
+
   c = {
     "<cmd>Telescope find_files cwd=$HOME/.config/nvim/lua<CR>", "config"
   },
@@ -229,7 +232,8 @@ wk.register({
 
   q = {"<cmd>q<cr>", "quit" },
   Q = {"<cmd>qa<cr>", "Quit all"}
-}, {
+},
+{
   prefix = "<Leader>",
   mode = "n"
 })
