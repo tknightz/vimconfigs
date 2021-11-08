@@ -167,11 +167,7 @@ pcall(require("telescope").load_extension, "project") -- ezterm
 pcall(require("telescope").load_extension, "ezterm") -- ezterm
 
 
-local opt = {noremap = true, silent = true}
-vim.g.mapleader = " "
-
--- mappings
-vim.api.nvim_set_keymap("n", "<Leader>fm", [[<Cmd> Neoformat<CR>]], opt)
+-- highlights
 vim.cmd[[highlight TelescopeAreciboNumber guifg=#9bca68]]
 vim.cmd[[highlight TelescopeAreciboUrl guifg=#555d86]]
 vim.cmd[[highlight TelescopeAreciboPrompt guifg=#ff6c22]]

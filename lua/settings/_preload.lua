@@ -2,7 +2,6 @@ local g = vim.g
 
 vim.cmd([[
 	syntax off
-	filetype off
 	filetype plugin indent off
 ]])
 

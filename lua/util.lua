@@ -14,7 +14,7 @@ M.substitute = function(word, new_word)
 		return
 	end
 
-	local cmd = string.format("%%s/\\<%s\\>/%s/g", word, new_word)
+	local cmd = string.format("%%s/%s/%s/g", word, new_word)
 	vim.cmd(cmd)
 end
 

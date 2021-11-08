@@ -26,17 +26,17 @@ require "nvim-web-devicons".setup {
 			name = "kt"
 		},
 		png = {
-			icon = " ",
+			icon = "",
 			color = "#BD77DC",
 			name = "png"
 		},
 		jpg = {
-			icon = " ",
+			icon = "",
 			color = "#BD77DC",
 			name = "jpg"
 		},
 		jpeg = {
-			icon = " ",
+			icon = "",
 			color = "#BD77DC",
 			name = "jpeg"
 		},
@@ -94,6 +94,11 @@ require "nvim-web-devicons".setup {
 			icon = "",
 			color = "#EBCB8B",
 			name = "xz"
+		},
+		org = {
+			icon = "",
+			color = "#EBCB8B",
+			name = "org"
 		},
 		default_icon = {
 			icon = "",

@@ -16,8 +16,9 @@ end
 -- 	nbsp = "␣"
 -- })
 
+opt("opt", "fillchars", "eob: ")
 opt("o", "termguicolors", true)
-opt("o", "list", false)
+-- opt("o", "list", false)
 -- opt("o", "swapfile", false)
 -- opt("o", "backup", false)
 opt("o", "undofile", true)

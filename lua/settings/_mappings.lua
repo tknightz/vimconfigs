@@ -4,8 +4,8 @@ vim.g.instant_markdown_autostart = 0
 
 -- KEYBINDINgs
 vim.api.nvim_set_keymap('n', '<Leader>h', ':set hlsearch!<CR>', { noremap = true, silent = true }) -- toggle highlights
-vim.api.nvim_set_keymap("n", "<C-_>", ":CommentToggle<cr>", { noremap = true, silent = true}) -- Ctrl + / for commenting
-vim.api.nvim_set_keymap("v", "<C-_>", ":CommentToggle<cr>", { noremap = true, silent = true}) -- Comment for visual
+vim.api.nvim_set_keymap("n", "<C-_>", ":lua require('Comment').toggle()<cr>", { noremap = true, silent = true}) -- Ctrl + / for commenting
+vim.api.nvim_set_keymap("v", "<C-_>", ":lua ___comment_gb(vim.fn.visualmode())<cr>", { noremap = true, silent = true}) -- Comment for visual
 vim.api.nvim_set_keymap('n', '<C-y>', ":%y+", {}) -- Copy all text to clipboard
 vim.api.nvim_set_keymap('v', '<C-y>', ":%y+", {}) -- Copy selected to clipboard
 vim.api.nvim_set_keymap('n', '<C-S-Left>', ":vertical resize +3<cr>", {}) -- Resize window
@@ -39,4 +39,9 @@ vim.api.nvim_command('augroup END')
 -- Python
 vim.api.nvim_command('augroup python')
 vim.api.nvim_command('autocmd BufRead *.py set ts=4 sw=4')
+vim.api.nvim_command('augroup END')
+
+-- Javascript
+vim.api.nvim_command('augroup javascript')
+vim.api.nvim_command('autocmd BufRead *.js set ts=2 sw=2')
 vim.api.nvim_command('augroup END')

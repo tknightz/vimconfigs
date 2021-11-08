@@ -1,4 +1,6 @@
-require('lspkind').init({
+local lspkind = require('lspkind')
+local kind = require('plugins.lsp._kind')
+lspkind.init({
     -- enables text annotations
     --
     -- default: true
@@ -14,28 +16,11 @@ require('lspkind').init({
     -- override preset symbols
     --
     -- default: {}
-    symbol_map = {
-      Text = '',
-      Method = ' ',
-      Function = ' ',
-      ['function'] = ' ',
-      Constructor = ' ',
-      Variable = ' ',
-      Class = ' ',
-      Interface = ' ',
-      Module = ' ',
-      Property = '',
-      Unit = '',
-      Value = ' ',
-      Enum = ' ',
-      Keyword = ' ',
-      Snippet = '﬌',
-      Color = ' ',
-      File = '',
-      Folder = ' ',
-      EnumMember = ' ',
-      Constant = 'ﮡ ',
-      Struct = '  ',
-      Field = '柳'
-    },
+    symbol_map = kind.icons,
 })
+
+-- require('cmp').setup {
+-- 	formatting = {
+-- 		format = lspkind.cmp_format(),
+-- 	}
+-- }

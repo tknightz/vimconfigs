@@ -1,11 +1,17 @@
 local M = {}
 local g = vim.g
 
+M.NvimTreeXdgOpen = function()
+  local lib = require'nvim-tree.lib'
+  local node = lib.get_node_at_cursor()
+  if node then
+    vim.fn.jobstart("xdg-open '" .. node.absolute_path .. "' &", { detach = true })
+  end
+end
+
 M.setup = function()
-	g.nvim_tree_ignore = {".git", "node_modules", ".cache"}
 	g.nvim_tree_quit_on_open = 0
 	g.nvim_tree_indent_markers = 1
-	g.nvim_tree_hide_dotfiles = 1
 	g.nvim_tree_git_hl = 1
 	g.nvim_tree_root_folder_modifier = ":t"
 	g.nvim_tree_highlight_opened_files = 1
@@ -31,8 +37,8 @@ M.setup = function()
 	}
 
 	g.nvim_tree_icons = {
-		default = " ",
-		symlink = " ",
+		default = "",
+		symlink = "",
 		git = {
 			unstaged = "✗",
 			staged = "✓",
@@ -41,20 +47,20 @@ M.setup = function()
 			untracked = "★"
 		},
 		folder = {
-			default = " ",
-			arrow_open = " ",
-			arrow_closed = " ",
-			open = " ",
-			empty = " ",
-			empty_open = " ",
-			symlink = " ",
-			symlink_open = " "
+			default = "",
+			arrow_open = "",
+			arrow_closed = "",
+			open = "",
+			empty = "",
+			empty_open = "",
+			symlink = "",
+			symlink_open = ""
 		},
 		lsp = {
-			hint = ' ',
-			info = " ",
-			warning = " ",
-			error = " "
+			hint = '',
+			info = "",
+			warning = "",
+			error = ""
 		}
 	}
 end
@@ -64,10 +70,13 @@ M.config = function()
 	local tree_cb = require('nvim-tree.config').nvim_tree_callback
 	nvim_tree.setup {
 		auto_close = true,
-		mappings = {
-			custom_only = false,
-			list = {
-				{ key = "e", cb = tree_cb("cd") }
+		view = {
+			mappings = {
+				custom_only = false,
+				list = {
+					{ key = "e", cb = tree_cb("cd") },
+					{ key = "o", cb = M.NvimTreeXdgOpen() },
+				}
 			}
 		}
 	}

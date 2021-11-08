@@ -1,8 +1,9 @@
-vim.o.completeopt = "menuone,noselect"
+vim.o.completeopt = "menu,menuone,noselect"
 
-require "compe".setup {
+local cmp = require'cmp'
+
+cmp.setup({
 	enabled = true,
-	autocomplete = true,
 	debug = false,
 	min_length = 1,
 	preselect = "enable",
@@ -20,101 +21,96 @@ require "compe".setup {
 		max_height = math.floor(vim.o.lines * 0.3),
 		min_height = 1, ]]
 	},
-	source = {
-		path = {
-			kind = " "
-		},
-		buffer = {
-			kind = " ",
-		},
-		emoji = {
-			kind = " ",
-		},
-		calc = {
-			kind = " ",
-		},
-		vsnip = {
-			kind = "﬌",
-			true
-		}, --replace to what sign you prefer
-		nvim_lsp = {
-			kind = " "
-		},
-		nvim_lua = {
-			kind = " "
-		},
-		ultisnips = true,
-		spell = false,
-		tags = true,
-		snippets_nvim = true,
+	snippet = {
+		expand = function(args)
+			-- require('luasnip').lsp_expand(args.body) -- For `luasnip` users.
+			-- vim.fn["UltiSnips#Anon"](args.body) -- For `ultisnips` users.
+			-- require'snippy'.expand_snippet(args.body) -- For `snippy` users.
+		end,
+	},
+	mapping = {
+		['<C-d>'] = cmp.mapping.scroll_docs(-4),
+		['<C-f>'] = cmp.mapping.scroll_docs(4),
+		['<C-Space>'] = cmp.mapping.complete(),
+		['<C-e>'] = cmp.mapping.close(),
+		['<Tab>'] = cmp.mapping(cmp.mapping.select_next_item(), { 'i', 's' }),
+		['<S-Tab>'] = cmp.mapping(cmp.mapping.select_prev_item(), { 'i', 's' }),
+		['('] = cmp.mapping(function(fallback)
+			cmp.mapping.complete()
+			vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("()<left>", true, false, true), "n", true)
+		end, { 'i', 's' }),
+		-- ['<ESC>'] = cmp.mapping(function(fallback)
+		-- 	if cmp.get_active_entry() ~= nil then
+		-- 		cmp.abort()
+		-- 	else
+		-- 		vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes('<esc>',true,false,true), "n", true)
+		-- 	end
+		-- end, { 'i', 's' }),
+		-- ['<CR>'] = cmp.mapping.confirm({ select = true }),
+		['<CR>'] = cmp.mapping.confirm({
+			behavior = cmp.ConfirmBehavior.Insert,
+			select = true,
+		}),
+	},
+	sources = cmp.config.sources({
+			{ name = 'nvim_lsp' },
+			{ name = 'path' },
+			{ name = 'buffer' },
+			{ name = 'emoji' },
+			{ name = 'nvim_lua' },
+			{ name = 'vsnip' },
+	}),
+	formatting = {
+    format = function(entry, vim_item)
+			vim_item.kind = require('plugins.lsp._kind').icons[vim_item.kind] .. vim_item.kind
+
+      -- set a name for each source
+      vim_item.menu = ({
+        buffer = "[Buffer]",
+        emoji = "[Emoji]",
+        nvim_lsp = "[LSP]",
+        path = "[Path]",
+        spell = "[Spell]",
+        treesitter = "[Treesitter]",
+        nvim_lua = "[Neovim]",
+      })[entry.source.name]
+
+      return vim_item
+    end,
+  },
+	experimental = {
+		ghost_text = false
 	}
-}
+})
 
-local t = function(str)
-	return vim.api.nvim_replace_termcodes(str, true, true, true)
-end
-
-local check_back_space = function()
-	local col = vim.fn.col(".") - 1
-	if col == 0 or vim.fn.getline("."):sub(col, col):match("%s") then
-		return true
-	else
-		return false
-	end
-end
-
-_G.tab_complete = function()
-	if vim.fn.pumvisible() == 1 then
-		return t "<C-n>"
-	elseif check_back_space() then
-		return t "<Tab>"
-	end
-end
-
-_G.s_tab_complete = function()
-	if vim.fn.pumvisible() == 1 then
-		return t "<C-p>"
-	elseif vim.fn.call("vsnip#jumpable", {-1}) == 1 then
-		return t "<Plug>(vsnip-jump-prev)"
-	else
-		return t "<S-Tab>"
-	end
-end
-
---  mappings
-function _G.completions()
-	local npairs = require("nvim-autopairs")
-	if vim.fn.pumvisible() == 1 then
-		if vim.fn.complete_info()["selected"] ~= -1 then
-			return vim.fn["compe#confirm"]("<CR>")
-		end
-	end
-	return npairs.check_break_line_char()
-end
-
-vim.api.nvim_set_keymap("i", "<Tab>", "v:lua.tab_complete()", {expr = true})
-vim.api.nvim_set_keymap("s", "<Tab>", "v:lua.tab_complete()", {expr = true})
-vim.api.nvim_set_keymap("i", "<S-Tab>", "v:lua.s_tab_complete()", {expr = true})
-vim.api.nvim_set_keymap("s", "<S-Tab>", "v:lua.s_tab_complete()", {expr = true})
-vim.api.nvim_set_keymap("i", "<CR>", "v:lua.completions()", {expr = true})
+-- require("nvim-autopairs.completion.cmp").setup({
+-- 	map_cr = true, --  map <CR> on insert mode
+-- 	map_complete = true, -- it will auto insert `(` (map_char) after select function or method item
+-- 	auto_select = true, -- automatically select the first item
+-- 	insert = false, -- use insert confirm behavior instead of replace
+-- 	map_char = { -- modifies the function or method delimiter by filetypes
+-- 		all = '(',
+-- 		tex = '{'
+-- 	}
+-- })
 
 
-local g = vim.g
--- speeden up compe
-g.loaded_compe_calc = 0
-g.loaded_compe_emoji = 0
-
-g.loaded_compe_luasnip = 0
-g.loaded_compe_nvim_lua = 0
-
-g.loaded_compe_path = 0
-g.loaded_compe_spell = 0
-g.loaded_compe_tags = 0
-g.loaded_compe_treesitter = 0
-
-g.loaded_compe_snippets_nvim = 0
-
-g.loaded_compe_ultisnips = 0
-g.loaded_compe_vim_lsc = 0
-g.loaded_compe_vim_lsp = 0
-g.loaded_compe_omni = 0
+-- local g = vim.g
+-- -- speeden up compe
+-- g.loaded_compe_calc = 0
+-- g.loaded_compe_emoji = 0
+--
+-- g.loaded_compe_luasnip = 0
+-- g.loaded_compe_nvim_lua = 0
+--
+-- g.loaded_compe_path = 0
+-- g.loaded_compe_spell = 0
+-- g.loaded_compe_tags = 0
+-- g.loaded_compe_treesitter = 0
+--
+-- g.loaded_compe_snippets_nvim = 0
+--
+-- g.loaded_compe_ultisnips = 0
+-- g.loaded_compe_vim_lsc = 0
+-- g.loaded_compe_vim_lsp = 0
+-- g.loaded_compe_omni = 0

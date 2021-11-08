@@ -3,7 +3,7 @@ local lspconf = require("lspconfig")
 
 lspconf.gopls.setup {
     on_attach = preset.on_attach,
-    -- capabilities = cap,
+		capabilities = preset.capabilities,
     filetypes = {"go", "gomod"},
     message_level = vim.lsp.protocol.MessageType.Error,
     cmd = {

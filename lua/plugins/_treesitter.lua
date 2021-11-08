@@ -1,4 +1,13 @@
 local ts_config = require("nvim-treesitter.configs")
+local parser_config = require("nvim-treesitter.parsers").get_parser_configs()
+
+parser_config.org = {
+	install_info = {
+		url = 'milisims/tree-sitter-org',
+		files = {'src/parser.c', 'src/scanner.cc'},
+	},
+	filetype = 'org',
+}
 
 ts_config.setup {
 	ensure_installed = {
@@ -26,8 +35,37 @@ ts_config.setup {
 			node_decremental = "gp",
 		}
 	},
+	indent = {
+		enable = false
+	},
 	matchup = {
 		enable = true,
+	},
+	textobjects = {
+		select = {
+			enable = true,
+
+			-- Automatically jump forward to textobj, similar to targets.vim
+			lookahead = true,
+
+			keymaps = {
+				-- You can use the capture groups defined in textobjects.scm
+				["af"] = "@function.outer",
+				["if"] = "@function.inner",
+				["ac"] = "@class.outer",
+				["ic"] = "@class.inner",
+				["il"] = "@loop.inner",
+				["al"] = "@loop.outer",
+
+				-- Or you can define your own textobjects like this
+				["iF"] = {
+					python = "(function_definition) @function",
+					cpp = "(function_definition) @function",
+					c = "(function_definition) @function",
+					java = "(method_declaration) @function",
+				},
+			},
+		},
 	},
 	playground = {
 		enable = true,

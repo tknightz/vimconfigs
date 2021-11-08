@@ -20,16 +20,17 @@ local function shorten_bufname()
   local filename = vim.api.nvim_call_function('fnamemodify', {path, ':t'})
   local ext = vim.api.nvim_call_function('fnamemodify', {path, ':e'})
 	local icon = require('nvim-web-devicons').get_icon(filename, ext, { default = true })
-  return icon .. "  " .. shorten_str(filename)
+  return icon .. " " .. shorten_str(filename)
 end
 
-require'lualine'.setup {
-    options = {
+require('lualine').setup {
+	options = {
     icons_enabled = true,
     theme = 'material',
-    component_separators = {'', ''},
-    section_separators = {'', ''},
-    disabled_filetypes = {"NvimTree", "Mundo", "MudoDiff", "packer", "minimap", "dbui", "DiffviewFiles"}
+    component_separators = { left = '', right = ''},
+    section_separators = { left = '', right = ''},
+    disabled_filetypes = {"NvimTree", "Mundo", "MudoDiff", "packer", "minimap", "dbui", "DiffviewFiles"},
+    always_divide_middle = true,
   },
   sections = {
     lualine_a = {'mode'},
@@ -54,7 +55,11 @@ require'lualine'.setup {
     lualine_z = {'location'}
   },
   inactive_sections = {
-    lualine_a = {},
+    lualine_a = {
+			function()
+				return ' '
+			end
+		},
     lualine_b = {},
     lualine_c = {'filename'},
     lualine_x = {'location'},
