@@ -3,11 +3,21 @@ local parser_config = require("nvim-treesitter.parsers").get_parser_configs()
 
 parser_config.org = {
 	install_info = {
-		url = 'milisims/tree-sitter-org',
+		url = 'https://github.com/milisims/tree-sitter-org',
+		revision = 'main',
 		files = {'src/parser.c', 'src/scanner.cc'},
 	},
 	filetype = 'org',
 }
+
+parser_config.markdown = {
+  install_info = {
+    url = "https://github.com/ikatyang/tree-sitter-markdown",
+    files = { "src/parser.c", "src/scanner.cc" },
+  },
+  filetype = "markdown",
+}
+
 
 ts_config.setup {
 	ensure_installed = {
@@ -24,7 +34,7 @@ ts_config.setup {
 		enable = true,
 		disable = {"javascriptreact", "typescriptreact"},
 		use_languagetree = true,
-		additional_vim_regex_highlighting = true
+		additional_vim_regex_highlighting = {"javascriptreact", "typescriptreact", "html", "org", "markdown"}
 	},
 	incremental_selection = {
 		enable = true,

@@ -1,26 +1,23 @@
 local scopes = {o = vim.o, b = vim.bo, w = vim.wo, opt = vim.opt}
 
 local home = os.getenv("HOME")
-local undodir = home .. '/.vim/undo-dir'
+local undodir = home .. '/.vim/undo'
 
 local function opt(scope, key, value)
   scopes[scope][key] = value
 end
 
--- opt("opt", "listchars", {
--- 	-- tab = "│·",
--- 	trail = "·",
--- 	precedes = "←",
--- 	extends = "→",
--- 	eol = "↲",
--- 	nbsp = "␣"
--- })
+--[[ opt("opt", "listchars", {
+	-- tab = "│·",
+	trail = "·",
+	precedes = "←",
+	extends = "→",
+	eol = "↲",
+	nbsp = "␣"
+}) --]]
 
 opt("opt", "fillchars", "eob: ")
 opt("o", "termguicolors", true)
--- opt("o", "list", false)
--- opt("o", "swapfile", false)
--- opt("o", "backup", false)
 opt("o", "undofile", true)
 opt("o", "undodir", undodir)
 opt("o", "signcolumn", "yes")

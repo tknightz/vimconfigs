@@ -1,6 +1,7 @@
 -- By assign theme_name to a variable, I can lazy-loading most of plugins
 -- and neovim still works correctly of course.
 -- :> I probably can lazy-loading all plugins (but I don't need to do that)
+
 local theme = "colorful.vim"
 local theme_repo = "tknightz/colorful.vim"
 
@@ -16,15 +17,31 @@ return require("packer").startup(
 		}
 		use { "tweekmonster/startuptime.vim", cmd = "StartupTime" }
 
+		use {
+			-- faster filetype detect
+			"nathom/filetype.nvim",
+			config = function()
+				require('filetype').setup {
+					overrides = {
+						literal = {
+							["__Mundo__"] = 'Mundo',
+							["__Mundo_Preview__"] = "MundoDiff"
+						},
+					},
+				}
+			end
+		}
+
 		-- APPERANCES (COLORSCHEME, BUFFERLINE, TOPBAR...)
 		use {
 			theme_repo,
 			event = {"VimEnter"},
 			config = function()
-				vim.cmd([[
+
+				vim.cmd [[
 					syntax on
 					filetype plugin indent on
-				]])
+				]]
 
 				-- Theme load here
 				-- vim.cmd[[colorscheme theme_name]]
@@ -35,7 +52,7 @@ return require("packer").startup(
 		use {
 			-- highlight keywords in comment.
 			"folke/todo-comments.nvim",
-			after = theme,
+			event = "BufRead",
 			config = function()
 				require("todo-comments").setup {}
 			end
@@ -85,18 +102,20 @@ return require("packer").startup(
 			config = function() require("plugins._bufferline") end
 		}
 
-		-- use {'/home/tknightz/ViMaster/telescope-termfinder.nvim'}
-		-- use {"akinsho/toggleterm.nvim"}
+		--[[ use {'/home/tknightz/ViMaster/telescope-termfinder.nvim'}
+		use {"akinsho/toggleterm.nvim"} --]]
 
 		-- ORGMODE (notes-taking)
 		use { 
 			"kristijanhusak/orgmode.nvim",
-			after = theme,
-			branch = "tree-sitter",
+			ft = {"org"},
 			config = function()
-				require('plugins._orgmode')
+				-- ensure that treesitter first.
+				vim.cmd[[packadd nvim-treesitter]]
+				require('plugins._orgmode').setup()
 			end
 		}
+
 		use {
 			'lukas-reineke/headlines.nvim',
 			ft = {"markdown", "org"},
@@ -205,7 +224,7 @@ return require("packer").startup(
 		use {
 			-- Commenting
 			"numToStr/Comment.nvim",
-			after = theme,
+			event = "BufRead",
 			config = function()
 				require('Comment').setup{
 					mappings = {
@@ -291,6 +310,7 @@ return require("packer").startup(
 		use { 
 			-- This is for python docstring...
 			"stsewd/sphinx.nvim",
+			ft = {"python"},
 			run = ":UpdateRemotePlugins",
 			after = "nvim-treesitter"
 		}
@@ -348,6 +368,15 @@ return require("packer").startup(
 			"luukvbaal/stabilize.nvim",
 			event = "BufRead",
 			config = function() require("stabilize").setup() end
+		}
+
+		use {
+			-- Show conext current cursor
+			"romgrk/nvim-treesitter-context",
+			cmd = {"TSContextToggle", "TSContextEnable"},
+			config = function()
+				require('treesitter-context').setup()
+			end
 		}
 
 		use {

@@ -20,7 +20,11 @@ local function shorten_bufname()
   local filename = vim.api.nvim_call_function('fnamemodify', {path, ':t'})
   local ext = vim.api.nvim_call_function('fnamemodify', {path, ':e'})
 	local icon = require('nvim-web-devicons').get_icon(filename, ext, { default = true })
-  return icon .. " " .. shorten_str(filename)
+
+	local is_modified = vim.bo.modified
+
+	local modified_indicator = is_modified and "" or ""
+  return icon .. " " .. shorten_str(filename) .. " " .. modified_indicator
 end
 
 require('lualine').setup {
@@ -38,17 +42,20 @@ require('lualine').setup {
     lualine_c = {
       {
         'diff',
-        -- symbols = {added = ' ', modified = ' ', removed = ' '},
-        color_added = '#75bb3f',
-        color_modified = '#ff722e',
-        color_removed = '#DC1616',
+				colored = true,
+				-- symbols = {added = ' ', modified = ' ', removed = ' '},
+				diff_color = {
+					added = { fg = '#3eff7b' },
+					modified = { fg = '#ff722e' },
+					removed = { fg = '#dc1616' },
+				}
       },
       {
         "diagnostics",
         sources = {"nvim_lsp"},
         sections = {'error', 'warn', 'info'},
         symbols = { error = " ", warning = " ", hint = "", info = " " }
-      }
+      },
     },
     lualine_x = {'encoding', 'filetype'},
     lualine_y = {'progress'},

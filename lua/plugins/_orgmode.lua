@@ -23,29 +23,32 @@ function exportTo(exporter, type)
 
 end
 
-require("orgmode").setup({
-	org_agenda_files = {'~/my-orgs/*'},
-	org_custom_exports = {
-		m = {
-			label = "Export to markdown",
-			action = function(exporter)
-				return exportTo(exporter, 'markdown')
-			end
-		},
-		h = {
-			label = "Export to Html",
-			action = function(exporter)
-				return exportTo(exporter, 'html')
-			end
-		},
-		p = {
-			label = "Export to PDF",
-			action = function(exporter)
-				return exportTo(exporter, 'pdf')
-			end
+M.setup = function()
+	require("orgmode").setup({
+		org_agenda_files = {'~/my-orgs/*'},
+		org_custom_exports = {
+			m = {
+				label = "Export to markdown",
+				action = function(exporter)
+					return exportTo(exporter, 'markdown')
+				end
+			},
+			h = {
+				label = "Export to Html",
+				action = function(exporter)
+					return exportTo(exporter, 'html')
+				end
+			},
+			p = {
+				label = "Export to PDF",
+				action = function(exporter)
+					return exportTo(exporter, 'pdf')
+				end
+			}
 		}
-	}
-})
+	})
+end
+
 
 M.mappings = {
 	name = "orgmode",
