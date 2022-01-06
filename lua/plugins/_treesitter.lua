@@ -12,12 +12,12 @@ parser_config.org = {
 
 parser_config.markdown = {
   install_info = {
-    url = "https://github.com/ikatyang/tree-sitter-markdown",
+    url = "https://github.com/MDeiml/tree-sitter-markdown",
+	branch = "main",
     files = { "src/parser.c", "src/scanner.cc" },
   },
   filetype = "markdown",
 }
-
 
 ts_config.setup {
 	ensure_installed = {
@@ -34,7 +34,7 @@ ts_config.setup {
 		enable = true,
 		disable = {"javascriptreact", "typescriptreact"},
 		use_languagetree = true,
-		additional_vim_regex_highlighting = {"javascriptreact", "typescriptreact", "html", "org", "markdown"}
+		additional_vim_regex_highlighting = {"javascriptreact", "typescriptreact", "markdown", "org", "sql"}
 	},
 	incremental_selection = {
 		enable = true,
@@ -94,5 +94,10 @@ ts_config.setup {
 			goto_node = '<cr>',
 			show_help = '?',
 		},
+	},
+	rainbow = {
+		enable = true,
+		extended_mode = true,
+		max_file_lines = nil,
 	}
 }

@@ -1,9 +1,9 @@
 local g = vim.g
 
-vim.cmd([[
+vim.cmd [[
 	syntax off
 	filetype plugin indent off
-]])
+]]
 
 g.loaded_gzip = 1
 g.loaded_zip = 1

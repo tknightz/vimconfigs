@@ -80,6 +80,7 @@ telescope.setup {
     file_previewer = previewers.vim_buffer_cat.new,
     grep_previewer = previewers.vim_buffer_vimgrep.new,
     qflist_previewer = previewers.vim_buffer_qflist.new,
+
     -- Developer configurations: Not meant for general override
     buffer_previewer_maker = previewers.buffer_previewer_maker
   },
@@ -163,7 +164,7 @@ telescope.setup {
 pcall(require("telescope").load_extension, "fzf") -- superfast sorter
 pcall(require("telescope").load_extension, "media_files") -- media preview
 pcall(require("telescope").load_extension, "arecibo") -- arecibo
-pcall(require("telescope").load_extension, "project") -- ezterm
+pcall(require("telescope").load_extension, "project") -- project
 pcall(require("telescope").load_extension, "ezterm") -- ezterm
 
 

@@ -16,6 +16,7 @@ local function shorten_str(str, size)
 end
 
 local function shorten_bufname()
+
   local path = vim.api.nvim_buf_get_name(0)
   local filename = vim.api.nvim_call_function('fnamemodify', {path, ':t'})
   local ext = vim.api.nvim_call_function('fnamemodify', {path, ':e'})
@@ -38,7 +39,12 @@ require('lualine').setup {
   },
   sections = {
     lualine_a = {'mode'},
-    lualine_b = {{shorten_bufname}, 'branch'},
+    lualine_b = {
+			{
+				shorten_bufname,
+			},
+			'branch'
+		},
     lualine_c = {
       {
         'diff',
@@ -52,7 +58,7 @@ require('lualine').setup {
       },
       {
         "diagnostics",
-        sources = {"nvim_lsp"},
+        sources = {"nvim_diagnostic"},
         sections = {'error', 'warn', 'info'},
         symbols = { error = " ", warning = " ", hint = "", info = " " }
       },

@@ -73,6 +73,13 @@ return require("packer").startup(
 		}
 		use { "nvim-treesitter/nvim-treesitter-textobjects", after = "nvim-treesitter" }
 		use { "nvim-treesitter/playground", cmd = {"TSPlaygroundToggle"} }
+		use { 
+			"p00f/nvim-ts-rainbow",
+			after = "nvim-treesitter",
+			config = function()
+				require("nvim-treesitter.configs").setup{}
+			end 
+		}
 
 		use {
 			-- status line
@@ -158,6 +165,11 @@ return require("packer").startup(
 		}
 
 		use {
+			'ggandor/lightspeed.nvim',
+			keys = {"s", "S"}
+		}
+
+		use {
 			"lukas-reineke/indent-blankline.nvim",
 			after = theme,
 			config = function()
@@ -205,6 +217,16 @@ return require("packer").startup(
 			end
 		}
 
+		use {
+			'tknightz/sqlupper.vim',
+			ft = {"sql"}
+		}
+
+		use {
+			'shmup/vim-sql-syntax', 
+			ft = {"sql", "mysql"}
+		}
+
 		-- EDITOR
 		use {
 			-- press f to move inline
@@ -245,7 +267,10 @@ return require("packer").startup(
 		use {
 			-- Add, change and delete brackets quickly
 			"machakann/vim-sandwich",
-			event = "InsertEnter"
+			event = "BufRead",
+			config = function()
+				vim.cmd[[runtime macros/sandwich/keymap/surround.vim]]
+			end
 		}
 		use {
 			-- Auto add brackets
@@ -307,7 +332,7 @@ return require("packer").startup(
 			module = "lsp_signature"
 		}
 
-		use { 
+		use {
 			-- This is for python docstring...
 			"stsewd/sphinx.nvim",
 			ft = {"python"},
@@ -363,11 +388,19 @@ return require("packer").startup(
 		}
 
 		-- UX
+		-- use {
+		-- 	-- Avoid flicker when split window
+		-- 	"luukvbaal/stabilize.nvim",
+		-- 	event = "BufRead",
+		-- 	config = function() require("stabilize").setup() end
+		-- }
+
 		use {
-			-- Avoid flicker when split window
-			"luukvbaal/stabilize.nvim",
-			event = "BufRead",
-			config = function() require("stabilize").setup() end
+			'VonHeikemen/fine-cmdline.nvim',
+			keys = {":"},
+			requires = {
+				{'MunifTanjim/nui.nvim', module = "nui"}
+			},
 		}
 
 		use {
@@ -383,6 +416,17 @@ return require("packer").startup(
 			-- Delete buffer nicely
 			"famiu/bufdelete.nvim",
 			cmd = {"Bdelete", "Bwipeout"}
+		}
+
+		use {
+			-- show fancy notifications
+			"rcarriga/nvim-notify",
+			module = "notify",
+			config = function()
+				require('notify').setup({
+					background_colour = "#000000",
+				})
+			end
 		}
 
 		use {

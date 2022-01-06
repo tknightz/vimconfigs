@@ -18,7 +18,7 @@ require('plugins.lsp._efm')
 	hint = "",
 	information = "",
 ]]
-vim.fn.sign_define("LspDiagnosticsSignError", {text = " ", numhl = "LspDiagnosticsDefaultError"})
-vim.fn.sign_define("LspDiagnosticsSignWarning", {text = " ", numhl = "LspDiagnosticsDefaultWarning"})
-vim.fn.sign_define("LspDiagnosticsSignInformation", {text = " ", numhl = "LspDiagnosticsDefaultInformation"})
-vim.fn.sign_define("LspDiagnosticsSignHint", {text = " ", numhl = "LspDiagnosticsDefaultHint"})
+vim.fn.sign_define("DiagnosticSignError", {text = " ", numhl = "LspDiagnosticsDefaultError", texthl = "LspDiagnosticsDefaultError"})
+vim.fn.sign_define("DiagnosticSignWarning", {text = " ", numhl = "LspDiagnosticsDefaultWarning", texthl = "LspDiagnosticsDefaultWarning"})
+vim.fn.sign_define("DiagnosticSignInformation", {text = " ", numhl = "LspDiagnosticsDefaultInformation", texthl = "LspDiagnosticsDefaultInformation"})
+vim.fn.sign_define("DiagnosticSignHint", {text = " ", numhl = "LspDiagnosticsDefaultHint", texthl = "LspDiagnosticsDefaultHint"})
